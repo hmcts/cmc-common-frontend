@@ -1,0 +1,10 @@
+{
+  "name": "@hmcts/cmc-common-frontend",
+  "version": "1.0.0",
+  "author": "HMCTS",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:hmcts/cmc-common-frontend.git"
+  },
+}

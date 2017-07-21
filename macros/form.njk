@@ -150,9 +150,8 @@
   {% if form.hasErrors() %}
     <div class="error-summary" role="group" aria-labelledby="error-summary-heading" tabindex="-1">
       <h1 class="heading-medium error-summary-heading" id="error-summary-heading">
-        {{ t('Message to alert the user to a problem goes here') }}
+        {{ t('There was a problem') }}
       </h1>
-      <p> {{ t('Optional description of the errors and how to correct them') }} </p>
       <ul class="error-summary-list">
         {% for error in form.errors %}
           <li><a href="#{{ error.fieldName }}[label]">{{ t(error.message) }}</a></li>
@@ -160,4 +159,8 @@
       </ul>
     </div>
   {% endif %}
+{% endmacro %}
+
+{% macro csrfProtection(token) %}
+    <input type="hidden" name="_csrf" value="{{ token }}">
 {% endmacro %}

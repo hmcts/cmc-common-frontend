@@ -4,9 +4,9 @@
     <form method="post">
         {{ csrfProtection(csrfToken) }}
 
-        {{ textInput(t('Address line 1'), 'line1', form, compound='true') }}
-        {{ textInput(t('Address line 2 (optional)'), 'line2', form, compound='true') }}
-        {{ textInput(t('Town or city (optional)'), 'city', form, compound='true') }}
+        {{ textInput(t('Address line 1'), 'line1', form, compound=true) }}
+        {{ textInput(t('Address line 2 (optional)'), 'line2', form, compound=true) }}
+        {{ textInput(t('Town or city (optional)'), 'city', form, compound=true) }}
         {{ textInput(t('Postcode'), 'postcode', form, '', 'postcode') }}
         {{ saveAndContinueButton() }}
     </form>

@@ -1,6 +1,6 @@
-{% macro input(label, name, form, hint='', type='text', inputClass='') %}
+{% macro input(label, name, form, hint='', type='text', inputClass='', compound=false) %}
   {% set error = form.errorFor(name) %}
-  <div class="form-group {% if error %} form-group-error {% endif %}">
+  <div class="{% if compound %} form-group-compound {% else %} form-group {% endif %}form-group {% if error %} form-group-error {% endif %}">
     <label for="{{ name }}" id="{{ name }}[label]" class="form-label">{{ label }}
       {% if hint != '' %}
         <span class="form-hint">{{ hint }}</span>
@@ -11,8 +11,8 @@
   </div>
 {% endmacro %}
 
-{% macro textInput(label, name, form, hint='', inputClass='') %}
-  {{ input(label, name, form, hint, 'text', inputClass) }}
+{% macro textInput(label, name, form, hint='', inputClass='', compound=false) %}
+  {{ input(label, name, form, hint, 'text', inputClass, compound) }}
 {% endmacro %}
 
 {% macro textInputInline( name, form, inputClass='', prefixClass='') %}

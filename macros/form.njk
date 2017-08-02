@@ -15,9 +15,9 @@
   {{ input(label, name, form, hint, 'text', inputClass, compound) }}
 {% endmacro %}
 
-{% macro textInputInline( name, form, inputClass='', prefixClass='') %}
-  {% set error = form.errorFor(name) %}
-  <label for="{{ name }}"></label>
+{% macro textInputInline( name, form, inputClass='', prefixClass='', label='', labelClass='') %}
+    {% set error = form.errorFor(name) %}
+  <label for="{{ name }}" id="{{ name }}[label]" class="form-label {{ labelClass }}">{{ label }}</label>
   <span class="{{ prefixClass }}">
     <input id="{{ name }}" name="{{ name }}" type="text" class="form-control {{ inputClass }} {% if error %} form-control-error {% endif %}" value="{{ form.valueFor(name) }}">
   </span>

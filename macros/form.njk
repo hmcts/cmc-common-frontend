@@ -27,12 +27,12 @@
   {{ input(label, name, form, hint, 'email') }}
 {% endmacro %}
 
-{% macro textArea(label, name, form, inputClass='', rows=5) %}
-  {% set error = form.errorFor(name) %}
+{% macro textArea(label, name, form, inputClass='form-control-3-4', rows=5) %}
+    {% set error = form.errorFor(name) %}
   <div class="form-group {% if error %} form-group-error {% endif %}">
     <label for="{{ name }}" id="{{ name }}[label]" class="form-label">{{ label }}</label>
     <span class="error-message">{{ error }}</span>
-    <textarea id="{{ name }}" name="{{ name }}" rows="{{ rows }}" class="form-control form-control-3-4 {{ inputClass }} {% if error %} form-control-error {% endif %}">{{ form.valueFor(name) }}</textarea>
+    <textarea id="{{ name }}" name="{{ name }}" rows="{{ rows }}" class="form-control {{ inputClass }} {% if error %} form-control-error {% endif %}">{{ form.valueFor(name) }}</textarea>
   </div>
 {% endmacro %}
 

@@ -1,5 +1,7 @@
 # CMC common -frontend
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/hmcts/cmc-common-frontend.svg)](https://greenkeeper.io/)
+
 This project contains common items for sharing across Civil Money Claim projects. 
 
 #Nunjuck Macros

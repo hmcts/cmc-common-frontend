@@ -13,10 +13,10 @@
 {% macro row( label, value, changeLink = '' ) %}
     <div class="bottom-border">
         <div class="column-one-third">
-            <span>{{ t( label ) }}</span>
+            <div {% if label == '' %} class="if-empty" {% endif %}>{{ t( label ) }}</div>
         </div>
         <div class="column-one-third">
-            <span>{{ value }}</span>
+            <div {% if value == '' %} class="if-empty" {% endif %}>{{ value }}</div>
         </div>
         {% if changeLink !== '' %}
             <div class="column-one-third change-link-column">
@@ -29,11 +29,11 @@
 {% macro rowWithMultipleValue( label, values, changeLink = '', bottomBorder = true) %}
     <div class="{% if bottomBorder %}bottom-border{% else %}no-bottom-border{% endif %}">
         <div class="column-one-third">
-            <span class="">{{ t( label ) }}</span>
+            <div {% if label == '' %} class="if-empty" {% endif %}>{{ t( label ) }}</div>
         </div>
         <div class="column-one-third">
             {% for value in values %}
-                <span class="block">{{ value }}</span>
+                <div {% if value == '' %} class="if-empty" {% endif %}>{{ value }}</div>
             {% endfor %}
         </div>
         {% if changeLink !== '' %}

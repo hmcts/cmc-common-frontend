@@ -12,14 +12,14 @@
 
 {% macro row( label, value, changeLink = '' ) %}
     <div class="bottom-border">
-        <div class="column-one-third">
+        <div class="column-one-quarter">
             <div {% if label == '' %} class="if-empty" {% endif %}>{{ t( label ) }}</div>
         </div>
-        <div class="column-one-third">
+        <div class="column-one-half">
             <div {% if value == '' %} class="if-empty" {% endif %}>{{ value }}</div>
         </div>
         {% if changeLink !== '' %}
-            <div class="column-one-third change-link-column">
+            <div class="column-one-quarter change-link-column">
                 <a href="{{ changeLink | safe }}" class="bold">{{ t('Change') }}</a>
             </div>
         {% endif %}
@@ -28,16 +28,16 @@
 
 {% macro rowWithMultipleValue( label, values, changeLink = '', bottomBorder = true) %}
     <div class="{% if bottomBorder %}bottom-border{% else %}no-bottom-border{% endif %}">
-        <div class="column-one-third">
+        <div class="column-one-quarter">
             <div {% if label == '' %} class="if-empty" {% endif %}>{{ t( label ) }}</div>
         </div>
-        <div class="column-one-third">
+        <div class="column-one-half">
             {% for value in values %}
                 <div {% if value == '' %} class="if-empty" {% endif %}>{{ value }}</div>
             {% endfor %}
         </div>
         {% if changeLink !== '' %}
-            <div class="column-one-third change-link-column">
+            <div class="column-one-quarter change-link-column">
                 <a href="{{ changeLink | safe }}" class="bold">{{ t('Change') }}</a>
             </div>
         {% endif %}

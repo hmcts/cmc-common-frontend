@@ -78,15 +78,15 @@
     <input id="{{ idValue }}" type="{{ type }}" name="{{ name }}" value="{{ value }}" {% if checked %} checked="checked" {% endif %}>
     <label for="{{ idValue }}">
       {% if hint == '' %}
-        {{ label }}
+        {{ t(label) }}
       {% else %}
         {% if bold %}
-          <strong class="bold-small">{{ label }}</strong>
+          <strong class="bold-small">{{ t(label) }}</strong>
         {% else %}
-          {{ label }}
+          {{ t(label) }}
         {% endif %}
         <br>
-        {{ hint }}
+        {{ t(hint) }}
       {% endif %}
     </label>
   </div>
@@ -120,30 +120,28 @@
 {% endmacro %}
 
 
-{% macro radioGroup(label, name, options, form, isInline = false) %}
-  {% set error = form.errorFor(name) %}
-  {% set selection = form.valueFor(name) %}
-  <div class="form-group {% if error %} form-group-error {% endif %}">
-    <fieldset id="{{ name }}[label]" {% if isInline %} class="inline" {% endif %}>
-      <legend>
-        <span class="form-label-bold">
-          {{ label }}
-        </span>
-        <span class="error-message">{{ t(error) }}</span>
-      </legend>
-      {% for option in options %}
-        {{ radioOption(
-            label = option.label,
-            name = name,
-            form = form,
-            value = option.value,
-            hint = option.hint,
-            checked = (selection === option.value)
-          )
-        }}
-      {% endfor %}
-    </fieldset>
-  </div>
+{% macro radioGroup(label, name, options, form, isInline = false, legendHidden = false) %}
+    {% set error = form.errorFor(name) %}
+    {% set selection = form.valueFor(name) %}
+    <div class="form-group {% if error %} form-group-error {% endif %}">
+        <fieldset id="{{ name }}[label]" {% if isInline %} class="inline" {% endif %}>
+            <legend {% if legendHidden %} class="visuallyhidden" {% endif %}>
+                <span class="form-label-bold">{{ t(label) }}</span>
+                <span class="error-message">{{ t(error) }}</span>
+            </legend>
+            {% for option in options %}
+                {{ radioOption(
+                label = option.label,
+                name = name,
+                form = form,
+                value = option.value,
+                hint = option.hint,
+                checked = (selection === option.value)
+                )
+                }}
+            {% endfor %}
+        </fieldset>
+    </div>
 {% endmacro %}
 
 {% macro errorSummary(form) %}

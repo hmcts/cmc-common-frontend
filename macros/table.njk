@@ -16,7 +16,7 @@
             <div {% if label == '' %} class="if-empty" {% endif %}>{{ t( label ) }}</div>
         </div>
         <div class="column-one-half">
-            <div {% if value == '' %} class="if-empty" {% endif %}>{{ value }}</div>
+            <div {% if value == null or value == '' %} class="if-empty" {% endif %}>{{ value }}</div>
         </div>
         {% if changeLink !== '' %}
             <div class="column-one-quarter change-link-column">

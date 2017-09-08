@@ -11,3 +11,10 @@
         {{ saveAndContinueButton() }}
     </form>
 {% endmacro %}
+
+{% macro addressFields(form) %}
+    {{ textInput(t('Address line 1'), 'line1', form, compound=true) }}
+    {{ textInput(t('Address line 2 (optional)'), 'line2', form, compound=true) }}
+    {{ textInput(t('Town or city'), 'city', form, compound=true) }}
+    {{ textInput(t('Postcode'), 'postcode', form, '', 'postcode') }}
+{% endmacro %}

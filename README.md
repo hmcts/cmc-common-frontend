@@ -1,15 +1,15 @@
 # CMC common -frontend
 
-This project contains common items for sharing across Civil Money Claim projects. 
+This project contains common items for sharing across Civil Money Claims projects. 
 
 #Nunjuck Macros
 
-Copy the contents of the macros folder into your project and update your Nunjucks configuration to point to this new folder.
+Add the macros folder of this project to your nunjucks search path:
 
 ```
 nunjucks.configure([
   path.join(__dirname, '..', '..', 'views'),
-  path.join(__dirname, '..', '..', '..', 'public', 'macros'),
+  path.join(__dirname, '..', '..', '..', '..', 'node_modules', '@hmcts', 'cmc-common-frontend', 'macros'),
 ], {
   autoescape: true,
   express: app

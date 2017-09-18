@@ -25,23 +25,23 @@
 {% endmacro %}
 
 {% macro partyDetailsSummaryFragment(partyDetails, showCorrespondenceAddressSection = true, changeLinks = {}) %}
-  {{ row("Name:", partyDetails.name, changeLinks.partyDetails or changeLinks.name) }}
+  {{ row('Name:', partyDetails.name, changeLinks.partyDetails or changeLinks.name) }}
 
   {% if (partyDetails.type === 'company' or partyDetails.type === 'organisation') %}
     {% if partyDetails.contactPerson %}
-      {{ row("Contact person:", partyDetails.contactPerson, changeLinks.partyDetails or changeLinks.contactPerson) }}
+      {{ row('Contact person:', partyDetails.contactPerson, changeLinks.partyDetails or changeLinks.contactPerson) }}
     {% endif %}
   {% endif %}
 
   {% if (partyDetails.type === 'soleTrader') %}
     {% if partyDetails.businessName %}
-      {{ row("Business name:", 'Trading as ' + partyDetails.businessName, changeLinks.partyDetails or changeLinks.businessName) }}
+      {{ row('Business name:', 'Trading as ' + partyDetails.businessName, changeLinks.partyDetails or changeLinks.businessName) }}
     {% endif %}
   {% endif %}
 
   {{
   rowWithMultipleValue(
-  label = "Address:",
+  label = 'Address:',
   values = [
   partyDetails.address.line1,
   partyDetails.address.line2,
@@ -68,13 +68,13 @@
     {% endif %}
     {{
     rowWithMultipleValue(
-    label = "Correspondence address:",
+    label = 'Correspondence address:',
     values = correspondenceAddressLines
     )
     }}
   {% endif %}
 
-  {% if (partyDetails.type === 'individual' and partyDetails.dateOfBirth) %}
-    {{ row("Date of birth:", partyDetails.dateOfBirth.date.toMoment() | date, changeLinks.dateOfBirth) }}
+  {% if (partyDetails.type === 'individual' and partyDetails.dateOfBirth and partyDetails.dateOfBirth.date) %}
+    {{ row('Date of birth:', partyDetails.dateOfBirth.date.toMoment() | date, changeLinks.dateOfBirth) }}
   {% endif %}
 {% endmacro %}

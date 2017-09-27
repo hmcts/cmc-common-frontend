@@ -58,10 +58,7 @@
   <div class="form-group {% if error %} form-group-error {% endif %}">
     <label for="{{ name }}" id="{{ name }}[label]" class="form-label {{ labelClass }}">{{ label }}</label>
     <span class="error-message">{{ error }}</span>
-    <textarea id="{{ name }}" name="{{ name }}" rows="{{ rows }}"
-              class="form-control {{ inputClass }} {% if error %}form-control-error{% endif %}">
-      {{ form.valueFor(name) }}
-    </textarea>
+    <textarea id="{{ name }}" name="{{ name }}" rows="{{ rows }}" class="form-control {{ inputClass }} {% if error %}form-control-error{% endif %}">{{ form.valueFor(name) }}</textarea>
 
   </div>
 {% endmacro %}

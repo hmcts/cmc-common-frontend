@@ -3,7 +3,7 @@
   {% set monthError = form.errorFor(name + "[month]") %}
   {% set yearError = form.errorFor(name + "[year]") %}
   {% set dateError = form.errorFor(name) %}
-  {% set error = form.hasErrors()  %}
+  {% set error = dayError or monthError or yearError or dateError %}
   <div class="form-group {% if error %} form-group-error {% endif %}">
     {% if label %}<label for="{{ name }}[label]" class="form-label-bold">{{ t(label) }}</label> {% endif %}
     {% if hint %}<span class="form-hint" id="dob-hint">{{ t(hint) }}</span>{% endif %}

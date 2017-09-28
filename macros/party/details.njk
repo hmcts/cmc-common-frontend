@@ -5,7 +5,9 @@
 {% macro partyDetailsFragment(form, fields, addressSection, showCorrespondenceAddressSection = false) %}
   {% for field in fields %}
     {% if field.readOnly %}
-      {{ readOnlyField(field.label, field.value) }}
+      {% if field.value %}
+        {{ readOnlyField(field.label, field.value) }}
+      {% endif %}
     {% else %}
       {{ textInput(form = form, label = t(field.label), name = field.name, autocomplete = field.autocomplete) }}
     {% endif %}
@@ -39,8 +41,7 @@
     {% endif %}
   {% endif %}
 
-  {{
-  rowWithMultipleValue(
+  {{ rowWithMultipleValue(
   label = 'Address:',
   values = [
   partyDetails.address.line1,
@@ -50,28 +51,23 @@
   ],
   bottomBorder = not showCorrespondenceAddressSection,
   changeLink = changeLinks.partyDetails or changeLinks.address
-  )
-  }}
+  ) }}
 
   {% if showCorrespondenceAddressSection %}
     {% if partyDetails.hasCorrespondenceAddress %}
-      {%
-      set correspondenceAddressLines = [
+      {% set correspondenceAddressLines = [
       partyDetails.correspondenceAddress.line1,
       partyDetails.correspondenceAddress.line2,
       partyDetails.correspondenceAddress.city,
       partyDetails.correspondenceAddress.postcode
-      ]
-      %}
+      ] %}
     {% else %}
       {% set correspondenceAddressLines = [t('Same as address')] %}
     {% endif %}
-    {{
-    rowWithMultipleValue(
+    {{ rowWithMultipleValue(
     label = 'Correspondence address:',
     values = correspondenceAddressLines
-    )
-    }}
+    ) }}
   {% endif %}
 
   {% if (partyDetails.type === 'individual' and partyDetails.dateOfBirth and partyDetails.dateOfBirth.date) %}

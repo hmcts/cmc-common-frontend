@@ -7,10 +7,12 @@
         <span class="form-hint">{{ t(hint) }}</span>
       {% endif %}
     </label>
-    <span class="error-message">{{ error }}</span>
-    <input id="{{ name }}" name="{{ name }}" type="{{ type }}" autocomplete="{{ autocomplete }}"
+    {% if error %}
+      <span class="error-message">{{ error }}</span>
+    {% endif %}
+    <input id="{{ name }}" name="{{ name }}" type="{{ type }}" autocomplete="{{ autocomplete | default('on') }}"
            class="form-control {{ inputClass }} {% if error %}form-control-error{% endif %}"
-           value="{{ form.valueFor(name) }}">
+           value="{{ form.valueFor(name) | default('') }}">
   </div>
 {% endmacro %}
 

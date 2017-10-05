@@ -4,7 +4,7 @@
 
 {% macro partyDetailsFragment(form, fields, addressSection, showCorrespondenceAddressSection = false) %}
   {% for field in fields %}
-    {% if field.readOnly %}
+    {% if field.readOnly | default(false) %}
       {% if field.value %}
         {{ readOnlyField(field.label, field.value) }}
       {% endif %}

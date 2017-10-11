@@ -7,10 +7,12 @@
         <span class="form-hint">{{ t(hint) }}</span>
       {% endif %}
     </label>
-    <span class="error-message">{{ error }}</span>
-    <input id="{{ name }}" name="{{ name }}" type="{{ type }}" autocomplete="{{ autocomplete }}"
+    {% if error %}
+      <span class="error-message">{{ error }}</span>
+    {% endif %}
+    <input id="{{ name }}" name="{{ name }}" type="{{ type }}" autocomplete="{{ autocomplete | default('on') }}"
            class="form-control {{ inputClass }} {% if error %}form-control-error{% endif %}"
-           value="{{ form.valueFor(name) }}">
+           value="{{ form.valueFor(name) | default('') }}">
   </div>
 {% endmacro %}
 
@@ -28,10 +30,12 @@
         <span class="form-hint">{{ t(hint) }}</span>
       {% endif %}
     </label>
-    <span class="error-message">{{ t(error) }}</span>
+    {% if error %}
+      <span class="error-message">{{ t(error) }}</span>
+    {% endif %}
     <span class="input-symbol-pound">
       <input id="{{ name }}"
-             name="{{ name }}" value="{{ form.valueFor(name) }}"
+             name="{{ name }}" value="{{ form.valueFor(name) | default('') }}"
              type="number"
              class="form-control {% if error %} form-control-error {% endif %}"
              maxlength="10" size="7">
@@ -45,7 +49,7 @@
   <span class="{{ prefixClass }}">
     <input id="{{ name }}" name="{{ name }}"
            class="form-control {{ inputClass }} {% if error %} form-control-error {% endif %}"
-           value="{{ form.valueFor(name) }}">
+           value="{{ form.valueFor(name) | default('') }}">
   </span>
 {% endmacro %}
 
@@ -57,8 +61,10 @@
   {% set error = form.errorFor(name) %}
   <div class="form-group {% if error %} form-group-error {% endif %}">
     <label for="{{ name }}" id="{{ name }}[label]" class="form-label {{ labelClass }}">{{ label }}</label>
-    <span class="error-message">{{ error }}</span>
-    <textarea id="{{ name }}" name="{{ name }}" rows="{{ rows }}" class="form-control {{ inputClass }} {% if error %}form-control-error{% endif %}">{{ form.valueFor(name) }}</textarea>
+    {% if error %}
+      <span class="error-message">{{ error }}</span>
+    {% endif %}
+    <textarea id="{{ name }}" name="{{ name }}" rows="{{ rows }}" class="form-control {{ inputClass }} {% if error %}form-control-error{% endif %}">{{ form.valueFor(name) | default('') }}</textarea>
 
   </div>
 {% endmacro %}

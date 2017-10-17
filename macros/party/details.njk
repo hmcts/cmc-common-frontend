@@ -45,7 +45,7 @@
   label = 'Address:',
   values = [
   partyDetails.address.line1,
-  partyDetails.address.line2,
+  partyDetails.address.line2 | default(''),
   partyDetails.address.city,
   partyDetails.address.postcode
   ],
@@ -57,7 +57,7 @@
     {% if partyDetails.hasCorrespondenceAddress %}
       {% set correspondenceAddressLines = [
       partyDetails.correspondenceAddress.line1,
-      partyDetails.correspondenceAddress.line2,
+      partyDetails.correspondenceAddress.line2 | default(''),
       partyDetails.correspondenceAddress.city,
       partyDetails.correspondenceAddress.postcode
       ] %}

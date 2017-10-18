@@ -2,6 +2,13 @@
 
 This project contains common items for sharing across Civil Money Claims projects. 
 
+## Install
+
+Run:
+```
+$ yarn add @hmcts/cmc-common-frontend
+```
+
 ## Nunjuck Macros
 
 Add the macros folder of this project to your nunjucks search path:

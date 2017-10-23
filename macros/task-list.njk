@@ -1,7 +1,7 @@
 {% macro task(link, taskName, completedSection) %}
   <div class="task">
     <a href="{{ link }}">
-      <span class="task-name">
+      <span class="task-name {%- if completedSection %} task-completed{% endif %}">
         {{ taskName }}
       </span>
     </a>

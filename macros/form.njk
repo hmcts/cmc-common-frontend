@@ -83,16 +83,17 @@
   <input type="submit" class="{{ class }}" name="{{ name }}" value="{{ t(label) }}">
 {% endmacro %}
 
-{% macro yesNoRadio(label, name, form) %}
+{% macro yesNoRadio(label, name, form, isInline = false, labelForScreenReadersOnly = true) %}
   {{ radioGroup(
-      label,
-      name,
-      [
-        { label: 'Yes', value: true },
-        { label: 'No', value: false }
-      ],
-      form,
-      isInline = true
+    label,
+    name,
+    [
+      { label: 'Yes', value: true },
+      { label: 'No', value: false }
+    ],
+    form,
+    isInline = isInline,
+    labelForScreenReadersOnly = labelForScreenReadersOnly
     )
   }}
 {% endmacro %}

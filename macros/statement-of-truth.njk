@@ -3,22 +3,22 @@
 {%
 macro statementOfTruth(
   form,
-  title = "Statement of truth",
-  warningMessage = "You could be fined or go to prison if you deliberately give untrue or misleading information.",
-  label = "I confirm that I believe the details I have provided are correct.",
+  title = 'Statement of truth',
+  warningMessage = 'You could be fined or go to prison if you deliberately give untrue or misleading information.',
+  label = 'I confirm that I believe the details I have provided are correct.',
   isQualified = false,
   typeOfStatement = 'statement of truth'
 ) %}
   <p class="bold-medium">{{ t(title) }}</p>
 
   {% if isQualified %}
-    {{ t('You must hold a senior position in your company to sign the %s.',
+    <p>{{ t('You must hold a senior position in your company to sign the %s.',
     {
       postProcess: 'sprintf',
       sprintf: [typeOfStatement]
-    }) }}
+    }) }}</p>
 
-    <details>
+    <details class='form-group'>
       <summary>
         <span class="summary">{{ t('Types of senior position') }}</span>
       </summary>
@@ -40,8 +40,9 @@ macro statementOfTruth(
         </ul>
       </div>
     </details>
-    {{ textInput(t('Full name'), 'signerName', form, inputClass = 'form-control-1-4') }}
-    {{ textInput(t('Role'), 'signerRole', form, inputClass = 'form-control-1-4') }}
+
+    {{ textInput(t('Full name'), 'signerName', form, inputClass = 'form-control-1-2') }}
+    {{ textInput(t('Role'), 'signerRole', form, inputClass = 'form-control-1-2') }}
   {% endif %}
 
   <div class="notice notice-medium">

@@ -203,7 +203,7 @@
 {% endmacro %}
 
 {% macro nameInput(label = 'Your full name', form) %}
-  {{ textInput(t(label), 'name', form, autocomplete='name') }}
+  {{ textInput(label, 'name', form, autocomplete='name') }}
 {% endmacro %}
 
 {% macro readOnlyField(label, value) %}

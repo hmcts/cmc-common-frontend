@@ -2,13 +2,13 @@
   {% set error = form.errorFor(name) %}
   {% set formGroupClass = 'form-group-compound' if compound else 'form-group' %}
   <div class="{{ formGroupClass }} {% if error %}form-group-error{% endif %}">
-    <label for="{{ name }}" id="{{ name }}[label]" class="form-label">{{ label }}
+    <label for="{{ name }}" id="{{ name }}[label]" class="form-label">{{ t(label) }}
       {% if hint %}
         <span class="form-hint">{{ t(hint) }}</span>
       {% endif %}
     </label>
     {% if error %}
-      <span class="error-message">{{ error }}</span>
+      <span class="error-message">{{ t(error) }}</span>
     {% endif %}
     <input id="{{ name }}" name="{{ name }}" type="{{ type }}" autocomplete="{{ autocomplete | default('on') }}"
            class="form-control {{ inputClass }} {% if error %}form-control-error{% endif %}"
@@ -60,9 +60,9 @@
 {% macro textArea(label, name, form, inputClass='form-control-3-4', rows=5, labelClass='') %}
   {% set error = form.errorFor(name) %}
   <div class="form-group {% if error %} form-group-error {% endif %}">
-    <label for="{{ name }}" id="{{ name }}[label]" class="form-label {{ labelClass }}">{{ label }}</label>
+    <label for="{{ name }}" id="{{ name }}[label]" class="form-label {{ labelClass }}">{{ t(label) }}</label>
     {% if error %}
-      <span class="error-message">{{ error }}</span>
+      <span class="error-message">{{ t(error) }}</span>
     {% endif %}
     <textarea id="{{ name }}" name="{{ name }}" rows="{{ rows }}" class="form-control {{ inputClass }} {% if error %}form-control-error{% endif %}">{{ form.valueFor(name) | default('') }}</textarea>
 
@@ -129,15 +129,15 @@
 
 {% macro checkboxGroup(label, name, options, form, isInline = false, bold = false, legendHidden = false) %}
   {% set error = form.errorFor(name) %}
-  {% set selection = form.valueFor(name) %}
   <div class="form-group {% if error %} form-group-error {% endif %}">
-    <fieldset id="{{ name }}[label]" {% if isInline %} class="inline" {% endif %}>
+    <fieldset name="{{ name }}[label]" id="{{ name }}[label]" {% if isInline %} class="inline" {% endif %}>
       <legend>
         <span class="form-label-bold {% if legendHidden %}visually-hidden{% endif %}">
           {{ t(label) }}
         </span>
         <span class="error-message">{{ t(error) }}</span>
       </legend>
+      {% set selection = form.valueFor(name).indexOf(option.value) %}
       {% for option in options %}
         {{ checkboxOption(
           label = option.label,
@@ -145,7 +145,7 @@
           form = form,
           value = option.value,
           hint = option.hint,
-          checked = (selection === option.value),
+          checked = (selection != -1),
           bold = bold
         )
         }}
@@ -161,7 +161,7 @@
   {% set error = form.errorFor(name) %}
   {% set selection = form.valueFor(name) %}
   <div class="form-group {% if error %} form-group-error {% endif %}">
-    <fieldset id="{{ name }}[label]" {% if isInline %} class="inline" {% endif %}>
+    <fieldset name="{{ name }}[label]" id="{{ name }}[label]" {% if isInline %} class="inline" {% endif %}>
       <legend {% if legendHidden %}class="visuallyhidden"{% endif %}>
         <span class="{% if labelForScreenReadersOnly %}visually-hidden{% else %} form-label-bold {% endif %}">
           {{ t(label) }}

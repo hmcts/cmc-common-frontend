@@ -43,6 +43,28 @@
   </div>
 {% endmacro %}
 
+{% macro searchInput(label, name, form, hint, bold = false) %}
+  {% set error = form.errorFor(name) %}
+  <div class="form-group {% if error %} form-group-error {% endif %}">
+    <label for="{{ name }}" id="{{ name }}[label]" class="form-label{% if bold %}-bold{% endif %}">
+      {{ t(label) }}
+
+      {% if hint %}
+        <span class="form-hint">{{ t(hint) }}</span>
+      {% endif %}
+    </label>
+    {% if error %}
+      <span class="error-message">{{ t(error) }}</span>
+    {% endif %}
+    <input id="{{ name }}"
+           name="{{ name }}" value="{{ form.valueFor(name) | default('') }}"
+           type="search"
+           class="search-input"
+           maxlength="10" size="7">
+    <button type="submit" class="search-submit icon icon-search" id="button" title="search"></button>
+  </div>
+{% endmacro %}
+
 {% macro textInputInline( name, form, inputClass='', prefixClass='') %}
   {% set error = form.errorFor(name) %}
   <label for="{{ name }}"></label>

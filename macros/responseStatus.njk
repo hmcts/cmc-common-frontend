@@ -1,0 +1,68 @@
+{% from "timeRemaining.njk" import timeRemaining %}
+
+{% macro responseStatusForDefendant(claim, url, isAfter4pm) %}
+
+  {% if claim.respondedAt %}
+    {% if claim.response.type === ResponseType.OWE_ALL_PAID_ALL %}
+      {{
+        t('You’ve rejected the claim. The case will be reviewed by a judge and might go to court.',
+          { postProcess: 'sprintf', sprintf: [ claim.claimData.claimant.name ]})
+      }}
+    {% elseif claim.response.type === ResponseType.OWE_NONE and claim.response.freeMediation === 'yes' %}
+      {{
+          t('You’ve rejected the claim and suggested mediation %s. You need to respond within 5 working days.',
+            { postProcess: 'sprintf', sprintf: [ claim.claimData.claimant.name, claim.respondedAt | date ]})
+      }}
+    {% else %}
+      {{ t('Your response is being processed. We will email you to explain what to do next.') }}
+    {% endif %}
+
+  {% elseif claim.countyCourtJudgmentRequestedAt %}
+    {{
+       t('%s requested a County Court Judgment against you on %s. We will contact you both within 5 working days.',
+          { postProcess: 'sprintf', sprintf: [ claim.claimData.claimant.name, claim.countyCourtJudgmentRequestedAt | date ]})
+    }}
+    %}
+  {% else %}
+    {{ t('<a href="%s">Respond to claim</a>', { postProcess: 'sprintf', sprintf: [ url ] }) | safe }}
+    <span class="block mobile-inline">
+      {{ timeRemaining(claim.remainingDays, isAfter4pm) }}
+    </span>
+  {% endif %}
+
+{% endmacro %}
+
+{% macro responseStatusForClaimant(claim) %}
+
+  {% if not claim.response %}
+    {% if claim.eligibleForCCJ %}
+      {{ t('Request a County Court Judgment.') }}
+    {% elseif claim.countyCourtJudgmentRequestedAt %}
+      {{
+          t('You requested a County Court Judgment on %s. We will contact you within 5 working days.',
+            { postProcess: 'sprintf', sprintf: [ claim.countyCourtJudgmentRequestedAt | date ]})
+      }}
+    {% else %}
+      {% if claim.moreTimeRequested %}
+        {{ t('Defendant requested for more time. Deadline is: ....') }}
+      {% else %}
+        {{ t('Your claim is being processed. We will email you to explain what to do next.') }}
+      {% endif %}
+    {% endif %}
+  {% else %}
+    {% if claim.response.type === ResponseType.OWE_ALL_PAID_ALL %}
+      {{
+        t('%s has rejected the claim. The case will be reviewed by a judge and might go to court.',
+          { postProcess: 'sprintf', sprintf: [ claim.response.defendantDetails.name ]})
+      }}
+    {% elseif claim.response.type === ResponseType.OWE_NONE and claim.response.freeMediation === 'yes' %}
+      {{
+          t('%s has rejected the claim. They’ve suggested free mediation on %s. You need to respond within 5 working days.',
+            { postProcess: 'sprintf', sprintf: [ claim.response.defendantDetails.name, claim.respondedAt | date ]})
+      }}
+    {% else %}
+      {{ t('Your claim is being processed. We will email you to explain what to do next.') }}
+    {% endif %}
+  {% endif %}
+
+{% endmacro %}

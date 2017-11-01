@@ -45,7 +45,7 @@
 
 {% macro searchInput(label, name, form, hint, bold = false) %}
   {% set error = form.errorFor(name) %}
-  <div class="form-group {% if error %} form-group-error {% endif %}">
+  <div class="form-group{% if error %} form-group-error{% endif %}">
     <label for="{{ name }}" id="{{ name }}[label]" class="form-label{% if bold %}-bold{% endif %}">
       {{ t(label) }}
 
@@ -59,9 +59,8 @@
     <input id="{{ name }}"
            name="{{ name }}" value="{{ form.valueFor(name) | default('') }}"
            type="search"
-           class="search-input"
-           maxlength="10" size="7">
-    <button type="submit" class="search-submit icon icon-search" id="button" title="search"></button>
+           class="search-input"">
+    <button type="submit" class="search-submit icon icon-search" id="button" title="search" />
   </div>
 {% endmacro %}
 

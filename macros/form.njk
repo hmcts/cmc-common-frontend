@@ -178,7 +178,7 @@
 {% macro checkboxSingle(label, name, option, form, isInline = false, bold = false, legendHidden = false) %}
   {% set error = form.errorFor(name) %}
   {% set selection = form.valueFor(name) %}
-  <div class="form-group {% if error %} form-group-error {% endif %}">
+  <div class="form-group{% if error %} form-group-error{% endif %}">
     <fieldset id="{{ name }}[label]" {% if isInline %} class="inline" {% endif %}>
       <legend>
         <span class="form-label-bold {% if legendHidden %}visually-hidden{% endif %}">

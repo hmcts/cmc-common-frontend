@@ -46,7 +46,7 @@
       {% if claim.moreTimeRequested %}
         {{
           t('%s has requested an extra 14 days to respond. They must respond by %s.',
-            { postProcess: 'sprintf', sprintf: [ claim.response.defendantDetails.name, claim.countyCourtJudgmentRequestedAt | date ]})
+            { postProcess: 'sprintf', sprintf: [ claim.response.defendantDetails.name, claim.responseDeadline | date ]})
         }}
       {% else %}
         {{ t('Your claim is being processed. We will email you to explain what to do next.') }}

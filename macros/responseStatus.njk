@@ -10,8 +10,8 @@
       }}
     {% elseif claim.response.type === ResponseType.OWE_NONE and claim.response.freeMediation === 'yes' %}
       {{
-          t('You’ve rejected the claim and suggested mediation %s. You need to respond within 5 working days.',
-            { postProcess: 'sprintf', sprintf: [ claim.claimData.claimant.name, claim.respondedAt | date ]})
+          t('You’ve rejected the claim and suggested mediation on %s. You need to respond within 5 working days.',
+            { postProcess: 'sprintf', sprintf: [ claim.respondedAt | date ]})
       }}
     {% else %}
       {{ t('Your response is being processed. We will email you to explain what to do next.') }}
@@ -44,7 +44,10 @@
       }}
     {% else %}
       {% if claim.moreTimeRequested %}
-        {{ t('Defendant requested for more time. Deadline is: ....') }}
+        {{
+          t('%s has requested an extra 14 days to respond. They must respond by %s.',
+            { postProcess: 'sprintf', sprintf: [ claim.response.defendantDetails.name, claim.countyCourtJudgmentRequestedAt | date ]})
+        }}
       {% else %}
         {{ t('Your claim is being processed. We will email you to explain what to do next.') }}
       {% endif %}

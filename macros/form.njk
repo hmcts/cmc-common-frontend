@@ -158,8 +158,8 @@
         </span>
         <span class="error-message">{{ t(error) }}</span>
       </legend>
-      {% set selection = form.valueFor(name).indexOf(option.value) %}
       {% for option in options %}
+        {% set selection = form.valueFor(name).indexOf(option.value) %}
         {{ checkboxOption(
           label = option.label,
           name = name,
@@ -171,6 +171,31 @@
         )
         }}
       {% endfor %}
+    </fieldset>
+  </div>
+{% endmacro %}
+
+{% macro checkboxSingle(label, name, option, form, isInline = false, bold = false, legendHidden = false) %}
+  {% set error = form.errorFor(name) %}
+  {% set selection = form.valueFor(name) %}
+  <div class="form-group {% if error %} form-group-error {% endif %}">
+    <fieldset id="{{ name }}[label]" {% if isInline %} class="inline" {% endif %}>
+      <legend>
+        <span class="form-label-bold {% if legendHidden %}visually-hidden{% endif %}">
+          {{ t(label) }}
+        </span>
+        <span class="error-message">{{ t(error) }}</span>
+      </legend>
+        {{ checkboxOption(
+        label = option.label,
+        name = name,
+        form = form,
+        value = option.value,
+        hint = option.hint,
+        checked = (selection === option.value),
+        bold = bold
+        )
+        }}
     </fieldset>
   </div>
 {% endmacro %}

@@ -1,4 +1,4 @@
-{% from "form.njk" import textInput, checkboxGroup, submitButton %}
+{% from "form.njk" import textInput, checkboxSingle, submitButton %}
 
 {%
 macro statementOfTruth(
@@ -55,10 +55,10 @@ macro statementOfTruth(
   </div>
 
   {{
-  checkboxGroup(
+  checkboxSingle(
   label = label,
   name = 'signed',
-  options = [ { label: label, value: true } ],
+  option =  { label: label, value: true } ,
   form = form,
   legendHidden = true
   )

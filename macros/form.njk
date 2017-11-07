@@ -78,10 +78,12 @@
   {{ input(label, name, form, hint, 'email') }}
 {% endmacro %}
 
-{% macro textArea(label, name, form, inputClass='form-control-3-4', rows=5, labelClass='') %}
+{% macro textArea(label, name, form, inputClass='form-control-3-4', rows=5, labelClass='', bold = true) %}
   {% set error = form.errorFor(name) %}
   <div class="form-group {% if error %} form-group-error {% endif %}">
-    <label for="{{ name }}" id="{{ name }}[label]" class="form-label {{ labelClass }}">{{ t(label) }}</label>
+    <label for="{{ name }}" id="{{ name }}[label]" class="form-label{% if bold %}-bold{% endif %} {{ labelClass }}">
+      {{ t(label) }}
+    </label>
     {% if error %}
       <span class="error-message">{{ t(error) }}</span>
     {% endif %}

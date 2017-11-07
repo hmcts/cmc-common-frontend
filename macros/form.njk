@@ -82,9 +82,10 @@
   {% set error = form.errorFor(name) %}
   <div class="form-group {% if error %} form-group-error {% endif %}">
     <label for="{{ name }}" id="{{ name }}[label]" class="form-label{% if bold %}-bold{% endif %} {{ labelClass }}">
-      {{ label }}</label>
+      {{ t(label) }}
+    </label>
     {% if error %}
-      <span class="error-message">{{ error }}</span>
+      <span class="error-message">{{ t(error) }}</span>
     {% endif %}
     <textarea id="{{ name }}" name="{{ name }}" rows="{{ rows }}" class="form-control {{ inputClass }} {% if error %}form-control-error{% endif %}">{{ form.valueFor(name) | default('') }}</textarea>
 

@@ -231,6 +231,39 @@
   </div>
 {% endmacro %}
 
+{% macro radioGroupWithHintPanel(
+    label, name, options, form, isInline = false, legendHidden = false, labelForScreenReadersOnly = false
+  ) %}
+
+  {% set error = form.errorFor(name) %}
+  {% set selection = form.valueFor(name) %}
+  <div class="form-group {% if error %} form-group-error {% endif %}">
+    <fieldset name="{{ name }}[label]" id="{{ name }}[label]" {% if isInline %} class="inline" {% endif %}>
+      <legend {% if legendHidden %}class="visuallyhidden"{% endif %}>
+        <span class="{% if labelForScreenReadersOnly %}visually-hidden{% else %} form-label-bold {% endif %}">
+          {{ t(label) }}
+        </span>
+        <span class="error-message">{{ t(error) }}</span>
+      </legend>
+      {% for option in options %}
+        {{ radioOption(
+        label = option.label,
+        name = name,
+        form = form,
+        value = option.value,
+        checked = option.checked or (selection === option.value),
+        bold = option.bold
+        ) }}
+        {% if option.hint %}
+          <div class="panel panel-border-narrow js-hidden" id="{{ name }}-{{ option.value }}" aria-hidden="false">
+            <p>{{ option.hint }}</p>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </fieldset>
+  </div>
+{% endmacro %}
+
 {% macro errorSummary(form) %}
   {% if form.hasErrors() %}
     <div class="error-summary" role="group" aria-labelledby="error-summary-heading" tabindex="-1">

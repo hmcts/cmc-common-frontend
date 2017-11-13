@@ -54,7 +54,7 @@
       {% if claim.moreTimeRequested %}
         {{
           t('%s has requested an extra 14 days to respond. They need to respond by %s.',
-            { postProcess: 'sprintf', sprintf: [ claim.response.defendantDetails.name, claim.responseDeadline | date ]})
+            { postProcess: 'sprintf', sprintf: [ claim.claimData.defendant.name, claim.responseDeadline | date ]})
         }}
       {% else %}
         {{ t('Your claim is being processed. We will email you to explain what to do next.') }}
@@ -64,7 +64,7 @@
     {% if claim.response.type === ResponseType.OWE_ALL_PAID_ALL %}
       {{
         t('%s has rejected the claim. The case will be reviewed by a judge and might go to court.',
-          { postProcess: 'sprintf', sprintf: [ claim.response.defendantDetails.name ]})
+          { postProcess: 'sprintf', sprintf: [ claim.claimData.defendant.name ]})
       }}
     {% elseif claim.response.type === ResponseType.OWE_NONE %}
       {% if claim.response.freeMediation === 'yes'  %}

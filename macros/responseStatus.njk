@@ -8,11 +8,15 @@
         t('You’ve rejected the claim. The case will be reviewed by a judge and might go to court.',
           { postProcess: 'sprintf', sprintf: [ claim.claimData.claimant.name ]})
       }}
-    {% elseif claim.response.type === ResponseType.OWE_NONE and claim.response.freeMediation === 'yes' %}
-      {{
-          t('You’ve rejected the claim and suggested mediation on %s. They need to respond within 5 working days.',
-            { postProcess: 'sprintf', sprintf: [ claim.respondedAt | date ]})
-      }}
+    {% elseif claim.response.type === ResponseType.OWE_NONE %}
+      {% if claim.response.freeMediation === 'yes' %}
+        {{
+            t('You’ve rejected the claim and suggested mediation on %s. They need to respond within 5 working days.',
+              { postProcess: 'sprintf', sprintf: [ claim.respondedAt | date ]})
+        }}
+      {% else %}
+        {{ t('You rejected the claim. The case will be reviewed by a judge and might go to court.') }}
+      {% endif %}
     {% else %}
       {{ t('Your response is being processed. We will email you to explain what to do next.') }}
     {% endif %}
@@ -62,11 +66,17 @@
         t('%s has rejected the claim. The case will be reviewed by a judge and might go to court.',
           { postProcess: 'sprintf', sprintf: [ claim.response.defendantDetails.name ]})
       }}
-    {% elseif claim.response.type === ResponseType.OWE_NONE and claim.response.freeMediation === 'yes' %}
-      {{
-          t('%s has rejected the claim. They’ve suggested free mediation on %s. You need to respond within 5 working days.',
-            { postProcess: 'sprintf', sprintf: [ claim.response.defendantDetails.name, claim.respondedAt | date ]})
-      }}
+    {% elseif claim.response.type === ResponseType.OWE_NONE %}
+      {% if claim.response.freeMediation === 'yes'  %}
+        {{
+            t('%s has rejected the claim. They’ve suggested free mediation on %s. You need to respond within 5 working days.',
+              { postProcess: 'sprintf', sprintf: [ claim.response.defendantDetails.name, claim.respondedAt | date ]})
+        }}
+      {% else %}
+        {{ t('%s rejected the claim. The case will be reviewed by a judge and might go to court.',
+            { postProcess: 'sprintf', sprintf: [ claim.response.defendantDetails.name ]})
+        }}
+      {% endif %}
     {% else %}
       {{ t('Your claim is being processed. We will email you to explain what to do next.') }}
     {% endif %}

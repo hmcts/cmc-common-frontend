@@ -22,7 +22,6 @@
        t('%s requested a County Court Judgment against you on %s. We will contact you both within 5 working days.',
           { postProcess: 'sprintf', sprintf: [ claim.claimData.claimant.name, claim.countyCourtJudgmentRequestedAt | date ]})
     }}
-    %}
   {% else %}
     {{ t('<a href="%s">Respond to claim</a>', { postProcess: 'sprintf', sprintf: [ url ] }) | safe }}
     <span class="block mobile-inline">
@@ -32,7 +31,7 @@
 
 {% endmacro %}
 
-{% macro responseStatusForClaimant(claim) %}
+{% macro responseStatusForClaimant(claim, url) %}
 
   {% if not claim.response %}
     {% if claim.eligibleForCCJ %}
@@ -41,6 +40,11 @@
       {{
           t('You requested a County Court Judgment on %s. We will contact you within 5 working days.',
             { postProcess: 'sprintf', sprintf: [ claim.countyCourtJudgmentRequestedAt | date ]})
+      }}
+    {% elseif featureToggles.offer and claim.settlement %}
+      {{
+          t('%s wants to settle out of court. View <a href="%s">their offer</a>.',
+              { postProcess: 'sprintf', sprintf: [ claim.claimData.defendant.name, url ] }) | safe
       }}
     {% else %}
       {% if claim.moreTimeRequested %}

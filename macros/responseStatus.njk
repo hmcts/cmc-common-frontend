@@ -31,7 +31,7 @@
 
 {% endmacro %}
 
-{% macro responseStatusForClaimant(claim, featureToggle, url) %}
+{% macro responseStatusForClaimant(claim, url) %}
 
   {% if not claim.response %}
     {% if claim.eligibleForCCJ %}
@@ -42,7 +42,6 @@
             { postProcess: 'sprintf', sprintf: [ claim.countyCourtJudgmentRequestedAt | date ]})
       }}
     {% elseif featureToggles.offer and claim.settlement %}
-
       {{
           t('%s wants to settle out of court. View <a href="%s">their offer</a>.',
               { postProcess: 'sprintf', sprintf: [ claim.claimData.defendant.name, url ] }) | safe

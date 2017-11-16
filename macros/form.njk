@@ -125,14 +125,15 @@
   {{ option(label, name, form, value, 'radio', hint, checked, bold) }}
 {% endmacro %}
 
-{% macro checkboxOption(label, name, form, value, hint = '', checked = false, bold = false, disabled = false) %}
-  {{ option(label, name, form, value, 'checkbox', hint, checked, bold, disabled) }}
+{% macro checkboxOption(label, name, form, value, hint = '', checked = false, bold = false) %}
+  {{ option(label, name, form, value, 'checkbox', hint, checked, bold) }}
 {% endmacro %}
 
-{% macro option(label, name, form, value, type, hint = '', checked = false, bold = false), disabled = false %}
+{% macro option(label, name, form, value, type, hint = '', checked = false, bold = false) %}
   <div class="multiple-choice" data-target="{{ name }}-{{ value }}">
     {% set idValue = name + value | replace(' ', '') %}
-    <input id="{{ idValue }}" type="{{ type }}" name="{{ name }}" value="{{ value }}"{% if checked %} checked{% endif %}{% if disabled %} disabled{% endif %}>
+    <input id="{{ idValue }}" type="{{ type }}" name="{{ name }}" value="{{ value }}"
+           {% if checked %}checked{% endif %}>
     <label for="{{ idValue }}">
       {% if hint == '' %}
         {{ t(label) }}
@@ -168,8 +169,7 @@
           value = option.value,
           hint = option.hint,
           checked = (selection != -1),
-          bold = bold,
-          disabled = option.disabled
+          bold = bold
         )
         }}
       {% endfor %}

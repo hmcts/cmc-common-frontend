@@ -256,7 +256,7 @@
         ) }}
         {% if option.hint %}
           <div class="panel panel-border-narrow js-hidden" id="{{ name }}-{{ option.value }}" aria-hidden="false">
-            <p>{{ option.hint }}</p>
+            <p>{{ t(option.hint) }}</p>
           </div>
         {% endif %}
       {% endfor %}

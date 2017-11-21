@@ -10,8 +10,8 @@
 </fieldset>
 {% endmacro %}
 
-{% macro row( label, value, changeLink ) %}
-  <div class="bottom-border">
+{% macro row( label, value, changeLink, bottomBorder = true) %}
+  <div class="{% if bottomBorder %}bottom-border{% else %}no-bottom-border{% endif %}">
     <div class="column-one-quarter  {% if not label %}if-empty{% endif %}">
       <span>{{ t( label ) }}</span>
     </div>

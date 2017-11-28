@@ -1,8 +1,15 @@
 {% from "timeRemaining.njk" import timeRemaining %}
 
+{% macro claimSettledStatus(url) %}
+  <p>{{ t('You have signed the agreement. The claim is now settled.') }}</p>
+  <p><a href="{{ url }}">{{ t('View agreement') }}</a></p>
+{% endmacro %}
+
 {% macro responseStatusForDefendant(claim, url, isAfter4pm) %}
 
-  {% if claim.respondedAt %}
+  {% if claim.settlementReachedAt  %}
+    {{ claimSettledStatus(url) }}
+  {% elseif claim.respondedAt %}
     {% if claim.response.type === ResponseType.OWE_ALL_PAID_ALL %}
       {{
         t('You’ve rejected the claim. The case will be reviewed by a judge and might go to court.',
@@ -44,6 +51,8 @@
       t('You requested a County Court Judgment on %s. We will contact you within 5 working days.',
         { postProcess: 'sprintf', sprintf: [ claim.countyCourtJudgmentRequestedAt | date ]})
     }}
+  {% elseif claim.settlementReachedAt  %}
+    {{ claimSettledStatus(url) }}
   {% elseif featureToggles.offer and claim.settlement %}
     {{
       t('%s wants to settle out of court. View <a href="%s">their offer</a>.',

@@ -68,13 +68,21 @@
   </div>
 {% endmacro %}
 
-{% macro textInputInline( name, form, inputClass='', prefixClass='') %}
+{% macro textInputInline( name, form, inputClass='', prefixClass='', ariaLabelledBy='', ariaDescribedBy='') %}
   {% set error = form.errorFor(name) %}
   <label for="{{ name }}"></label>
   <span class="{{ prefixClass }}">
-    <input id="{{ name }}" name="{{ name }}"
-           class="form-control {{ inputClass }} {% if error %} form-control-error {% endif %}"
-           value="{{ form.valueFor(name) | default('') }}">
+    <input
+      id="{{ name }}" name="{{ name }}"
+      class="form-control {{ inputClass }} {% if error %} form-control-error {% endif %}"
+      value="{{ form.valueFor(name) | default('') }}"
+      {% if ariaLabelledBy %}
+        aria-labelledby="{{ ariaLabelledBy }}"
+      {% endif %}
+      {% if ariaDescribedBy %}
+        aria-describedby="{{ ariaDescribedBy }}"
+      {% endif %}
+    >
   </span>
 {% endmacro %}
 

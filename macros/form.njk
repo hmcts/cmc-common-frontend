@@ -104,14 +104,14 @@
   </div>
 {% endmacro %}
 
-{% macro submitButton(label = 'Continue') %}
+{% macro submitButton(label = 'Continue', id = '') %}
   <div class="form-group">
-    <input type="submit" class="button" value="{{ t(label) }}">
+    <input type="submit" class="button" value="{{ t(label) }}" {% if id %}id="{{ id }}"{% endif %}>
   </div>
 {% endmacro %}
 
 {% macro saveAndContinueButton() %}
-  {{ submitButton('Save and continue') }}
+  {{ submitButton('Save and continue', id = 'saveAndContinue') }}
 {% endmacro %}
 
 {% macro linkButton(label, name, class) %}

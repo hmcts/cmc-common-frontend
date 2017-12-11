@@ -10,19 +10,20 @@
   {% if claim.settlementReachedAt  %}
     {{ claimSettledStatus(url) }}
   {% elseif claim.respondedAt %}
-    {% if claim.response.type === ResponseType.OWE_ALL_PAID_ALL %}
-      {{
-        t('You’ve rejected the claim. The case will be reviewed by a judge and might go to court.',
-          { postProcess: 'sprintf', sprintf: [ claim.claimData.claimant.name ]})
-      }}
-    {% elseif claim.response.type === ResponseType.OWE_NONE %}
-      {% if claim.response.freeMediation === 'yes' %}
+    {% if claim.response.responseType === 'FULL_DEFENCE' %}
+      {% if claim.response.defenceType === 'ALREADY_PAID' %}
         {{
-            t('You’ve rejected the claim and suggested mediation on %s. They need to respond within 5 working days.',
-              { postProcess: 'sprintf', sprintf: [ claim.respondedAt | date ]})
+          t('You’ve rejected the claim. The case will be reviewed by a judge and might go to court.')
         }}
-      {% else %}
-        {{ t('You rejected the claim. The case will be reviewed by a judge and might go to court.') }}
+      {% elseif claim.response.defenceType === 'DISPUTE' %}
+        {% if claim.response.freeMediation === 'yes' %}
+          {{
+              t('You’ve rejected the claim and suggested mediation on %s. They need to respond within 5 working days.',
+                { postProcess: 'sprintf', sprintf: [ claim.respondedAt | date ]})
+          }}
+        {% else %}
+          {{ t('You rejected the claim. The case will be reviewed by a judge and might go to court.') }}
+        {% endif %}
       {% endif %}
     {% else %}
       {{ t('Your response is being processed. We will email you to explain what to do next.') }}

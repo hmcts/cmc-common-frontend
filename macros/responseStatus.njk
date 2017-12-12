@@ -72,11 +72,11 @@
   {% elseif claim.response and claim.response.type === ResponseType.OWE_NONE and claim.response.freeMediation === 'yes' %}
     {{
     t('%s has rejected the claim. They’ve suggested free mediation on %s. You need to respond within 5 working days.',
-      { postProcess: 'sprintf', sprintf: [ claim.response.defendantDetails.name, claim.respondedAt | date ]})
+      { postProcess: 'sprintf', sprintf: [ claim.response.defendant.name, claim.respondedAt | date ]})
     }}
   {% elseif claim.response %}
     {{ t('%s rejected the claim. The case will be reviewed by a judge and might go to court.',
-      { postProcess: 'sprintf', sprintf: [ claim.response.defendantDetails.name ]})
+      { postProcess: 'sprintf', sprintf: [ claim.response.defendant.name ]})
     }}
   {% else %}
     {{ t('Your claim is being processed. We will email you to explain what to do next.') }}

@@ -86,6 +86,23 @@
   </span>
 {% endmacro %}
 
+{% macro poundInputInline(name, label, form, inputClass = 'column-2', ariaLabelledBy='', ariaDescribedBy='') %}
+
+  {% set value = form.valueFor(name) %}
+  {% set error = form.errorFor(name) %}
+
+  <label class="form-label-bold mobile-show" for="{{ name }}">{{ t(label) }}</label>
+  <span class="input-symbol-pound">
+    <input id="{{ name }}" name="{{ name }}"
+           class="form-control {{ inputClass }} {% if error %} form-control-error {% endif %}"
+           type="number"
+           value="{{ value | default('') }}"
+           {% if ariaLabelledBy %}aria-labelledby="{{ ariaLabelledBy }}"{% endif %}
+           {% if ariaDescribedBy %}aria-describedby="{{ ariaDescribedBy }}"{% endif %}>
+  </span>
+
+{% endmacro %}
+
 {% macro emailInput(label, name, form, hint='') %}
   {{ input(label, name, form, hint, 'email') }}
 {% endmacro %}

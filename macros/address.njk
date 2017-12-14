@@ -9,11 +9,6 @@
     </form>
 {% endmacro %}
 
-{# DEPRECATED #}
-{% macro addressFields(form) %}
-  {{ addressFragment(form) }}
-{% endmacro %}
-
 {% macro addressFragment(form, name) %}
   {{ textInput(t('Address line 1'), name + '[line1]' if name else 'line1', form, compound=true, autocomplete = 'address-line1') }}
   {{ textInput(t('Address line 2 (optional)'), name + '[line2]' if name else 'line2', compound=true, form, autocomplete = 'address-line2') }}

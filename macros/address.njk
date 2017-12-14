@@ -37,7 +37,11 @@
               name="{{ internalName }}"
               class="form-control"
               value="{{ form.valueFor(internalName) | default('') }}" />
-      <a href="#" id="{{ name + '[find-button]' if name else 'find-button' }}" role="button" class="button button-secondary postcode-search">Find address</a>
+      <a href="#" id="{{ name + '[find-button]' if name else 'find-button' }}"
+         role="button"
+         class="button button-secondary postcode-search">
+        {{ t('Find address') }}
+      </a>
     </div>
 
     <div id="{{ name + '[select-address]' if name else 'select-address' }}" class="form-group hidden postcode-address-picker">
@@ -45,7 +49,8 @@
         <label class="form-label">
           {{ t('Pick an address') }}
         </label>
-        <select id="{{ addressSelectName }}" class="form-control postcode-select" name="{{ addressSelectName }}" title="Pick an address">
+        <select id="{{ addressSelectName }}" class="form-control postcode-select" name="{{ addressSelectName }}"
+                title="{{ t('Pick an address') }}">
           <option value="">{{ t('Select an address') }}</option>
         </select>
       </div>
@@ -55,16 +60,20 @@
       <div class="form-group">
         <label class="form-label" for="{{ name + '[line1]' if name else 'line1' }}">{{ t('Address') }}</label>
         <input id="{{ name + '[line1]' if name else 'line1' }}"
-               class="form-control address-line1" name="{{ name + '[line1]' if name else 'line1' }}" autocomplete="address-line1"
+               class="form-control address-line1" name="{{ name + '[line1]' if name else 'line1' }}"
+               autocomplete="address-line1"
                value="{{ form.valueFor(name + '[line1]' if name else 'line1') | default('') }}"
         />
-        <input class="form-control second-text-input address-line2" name="{{ name + '[line2]' if name else 'line2' }}" autocomplete="address-line2"
+        <input class="form-control second-text-input address-line2" name="{{ name + '[line2]' if name else 'line2' }}"
+               autocomplete="address-line2"
                value="{{ form.valueFor(name + '[line2]' if name else 'line2') | default('') }}"
-               title="Street line 2"
+               title="{{ t('Street line 2') }}"
         />
       </div>
-      {{ textInput('Town or city', name + '[city]' if name else 'city', form, inputClass='address-town-or-city', compound=true, autocomplete = 'address-level2') }}
-      {{ textInput('Postcode', name + '[postcode]' if name else 'postcode', form, inputClass='postcode form-control-1-4', autocomplete = 'postal-code') }}
+      {{ textInput('Town or city', name + '[city]' if name else 'city', form, inputClass='address-town-or-city',
+        compound=true, autocomplete = 'address-level2') }}
+      {{ textInput('Postcode', name + '[postcode]' if name else 'postcode', form, inputClass='postcode form-control-1-4',
+        autocomplete = 'postal-code') }}
     </div>
   </div>
 {% endmacro %}

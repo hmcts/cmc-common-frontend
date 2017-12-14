@@ -62,10 +62,6 @@
                value="{{ form.valueFor(name + '[line2]' if name else 'line2') | default('') }}"
                title="Street line 2"
         />
-        <input class="form-control second-text-input address-line3" name="{{ name + '[line3]' if name else 'line3' }}" autocomplete="address-line3"
-               value="{{ form.valueFor(name + '[line3]' if name else 'line3') | default('') }}"
-               title="Street line 3"
-        />
       </div>
       {{ textInput('Town or city', name + '[city]' if name else 'city', form, inputClass='address-town-or-city', compound=true, autocomplete = 'address-level2') }}
       {{ textInput('Postcode', name + '[postcode]' if name else 'postcode', form, inputClass='postcode form-control-1-4', autocomplete = 'postal-code') }}

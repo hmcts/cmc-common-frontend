@@ -14,6 +14,65 @@
   {{ addressFragment(form) }}
 {% endmacro %}
 
+{% macro postcodeLookupAddressFragment(form, name) %}
+  {% set internalName = name + '[postcodeLookup]' if name else 'postcodeLookup' %}
+  {% set addressSelectName = name + '[addressList]' if name else 'addressList' %}
+
+  <div class="form-group notice postcode-lookup">
+    <div class="form-group notice postcode-search-container hidden js-visible">
+      <label for="{{ internalName }}" class="form-label">{{ t('Enter a UK postcode') }}</label>
+      <div class="postcode-search-error hidden">
+        <span class="error-message">
+          {{ t('We can’t find an address for that postcode. Try again or enter the address manually.') }}
+        </span>
+      </div>
+      <div class="postcode-search-error-ni hidden">
+        <span class="error-message">
+         {{ t('We can’t find Northern Irish addresses by postcode - enter the address manually instead.') }}
+        </span>
+      </div>
+
+      <input  id="{{ internalName }}"
+              autocomplete="postal-code"
+              name="{{ internalName }}"
+              class="form-control"
+              value="{{ form.valueFor(internalName) | default('') }}" />
+      <a href="#" id="{{ name + '[find-button]' if name else 'find-button' }}" role="button" class="button button-secondary postcode-search">Find address</a>
+    </div>
+
+    <div id="{{ name + '[select-address]' if name else 'select-address' }}" class="form-group hidden postcode-address-picker">
+      <div class="form-group">
+        <label class="form-label">
+          {{ t('Pick an address') }}
+        </label>
+        <select id="{{ addressSelectName }}" class="form-control postcode-select" name="{{ addressSelectName }}" title="Pick an address">
+          <option value="">{{ t('Select an address') }}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="address js-hidden">
+      <div class="form-group">
+        <label class="form-label" for="{{ name + '[line1]' if name else 'line1' }}">{{ t('Address') }}</label>
+        <input id="{{ name + '[line1]' if name else 'line1' }}"
+               class="form-control address-line1" name="{{ name + '[line1]' if name else 'line1' }}" autocomplete="address-line1"
+               value="{{ form.valueFor(name + '[line1]' if name else 'line1') | default('') }}"
+        />
+        <input class="form-control second-text-input address-line2" name="{{ name + '[line2]' if name else 'line2' }}" autocomplete="address-line2"
+               value="{{ form.valueFor(name + '[line2]' if name else 'line2') | default('') }}"
+               title="Street line 2"
+        />
+        <input class="form-control second-text-input address-line3" name="{{ name + '[line3]' if name else 'line3' }}" autocomplete="address-line3"
+               value="{{ form.valueFor(name + '[line3]' if name else 'line3') | default('') }}"
+               title="Street line 3"
+        />
+      </div>
+      {{ textInput('Town or city', name + '[city]' if name else 'city', form, inputClass='address-town-or-city', compound=true, autocomplete = 'address-level2') }}
+      {{ textInput('Postcode', name + '[postcode]' if name else 'postcode', form, inputClass='postcode form-control-1-4', autocomplete = 'postal-code') }}
+    </div>
+  </div>
+{% endmacro %}
+
 {% macro addressFragment(form, name) %}
   {{ textInput(t('Address line 1'), name + '[line1]' if name else 'line1', form, compound=true, autocomplete = 'address-line1') }}
   {{ textInput(t('Address line 2 (optional)'), name + '[line2]' if name else 'line2', compound=true, form, autocomplete = 'address-line2') }}
@@ -39,6 +98,6 @@
 
   <div class="panel panel-border-narrow js-hidden" id="hasCorrespondenceAddress-true" aria-hidden="false">
     <p>{{ t('All correspondence will be sent to this address. This is sometimes known as an ’address for service’.') | safe }}</p>
-    {{ addressFragment(form, name = 'correspondenceAddress') }}
+    {{ postcodeLookupAddressFragment(form, name = 'correspondenceAddress') }}
   </div>
 {% endmacro %}

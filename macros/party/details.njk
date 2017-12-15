@@ -1,5 +1,5 @@
 {% from "form.njk" import readOnlyField, csrfProtection, textInput, radioGroup, saveAndContinueButton %}
-{% from "address.njk" import addressFragment, correspondenceAddressFragment %}
+{% from "address.njk" import postcodeLookupAddressFragment, addressFragment, correspondenceAddressFragment %}
 {% from "table.njk" import tableStart,tableEnd, row, rowWithMultipleValue %}
 
 {% macro partyDetailsFragment(form, fields, addressSection, showCorrespondenceAddressSection = false) %}
@@ -18,7 +18,11 @@
     {% if addressSection.hint %}
       <p>{{ t(addressSection.hint) }}</p>
     {% endif %}
-    {{ addressFragment(form = form, name = addressSection.name) }}
+    {% if addressSection.postcodeLookup %}
+      {{ postcodeLookupAddressFragment(form = form, name = addressSection.name) }}
+    {% else %}
+      {{ addressFragment(form = form, name = addressSection.name) }}
+    {% endif %}
   {% endif %}
 
   {% if showCorrespondenceAddressSection == true %}

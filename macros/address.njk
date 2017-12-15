@@ -42,14 +42,21 @@
       </a>
     </div>
 
-    <div id="{{ name + '[select-address]' if name else 'select-address' }}" class="form-group hidden postcode-address-picker">
+    {% set addressSelectError = form.errorFor(addressSelectName) %}
+    <div id="{{ name + '[select-address]' if name else 'select-address' }}"
+         class="form-group hidden postcode-address-picker{% if addressSelectError %} form-group-error{% endif %}">
       <div class="form-group">
-        <label class="form-label">
+        <label id="{{ addressSelectName }}[label]" class="form-label">
           {{ t('Pick an address') }}
         </label>
-        <select id="{{ addressSelectName }}" class="form-control postcode-select" name="{{ addressSelectName }}"
+
+        {% if addressSelectError %}
+          <span class="error-message">{{ t(addressSelectError) }}</span>
+        {% endif %}
+        <select id="{{ addressSelectName }}"
+                class="form-control postcode-select {% if addressSelectError %} form-control-error{% endif %}"
+                name="{{ addressSelectName }}"
                 title="{{ t('Pick an address') }}">
-          <option value="">{{ t('Select an address') }}</option>
         </select>
       </div>
     </div>
@@ -88,11 +95,15 @@
       {{ textInput('Postcode', name + '[postcode]' if name else 'postcode', form, inputClass='postcode form-control-1-4',
         autocomplete = 'postal-code') }}
 
+      {% set addressSelectorVisibleName = name + '[addressSelectorVisible]' if name else 'addressSelectorVisible' %}
+
       {# Default address visible to true for non js users #}
       <input class="postcode-address-visible" type="hidden" value="true"
              name="{{ name + '[addressVisible]' if name else 'addressVisible' }}" />
-      <input class="address-selector-visible" type="hidden" value="false"
-             name="{{ name + '[addressSelectorVisible]' if name else 'addressSelectorVisible' }}" />
+      <input class="address-selector-visible"
+             type="hidden"
+             value="{{ form.valueFor(addressSelectorVisibleName) | default(false) }}"
+             name="{{ addressSelectorVisibleName }}" />
 
     </div>
   </div>

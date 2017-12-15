@@ -9,11 +9,6 @@
     </form>
 {% endmacro %}
 
-{# DEPRECATED #}
-{% macro addressFields(form) %}
-  {{ addressFragment(form) }}
-{% endmacro %}
-
 {% macro postcodeLookupAddressFragment(form, name) %}
   {% set internalName = name + '[postcodeLookup]' if name else 'postcodeLookup' %}
   {% set addressSelectName = name + '[addressList]' if name else 'addressList' %}

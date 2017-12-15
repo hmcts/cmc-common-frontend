@@ -88,9 +88,10 @@
       {{ textInput('Postcode', name + '[postcode]' if name else 'postcode', form, inputClass='postcode form-control-1-4',
         autocomplete = 'postal-code') }}
 
-      <input class="postcode-address-visible" type="hidden"
+      {# Default address visible to true for non js users #}
+      <input class="postcode-address-visible" type="hidden" value="true"
              name="{{ name + '[addressVisible]' if name else 'addressVisible' }}" />
-      <input class="address-selector-visible" type="hidden"
+      <input class="address-selector-visible" type="hidden" value="false"
              name="{{ name + '[addressSelectorVisible]' if name else 'addressSelectorVisible' }}" />
 
     </div>

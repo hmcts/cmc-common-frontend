@@ -19,8 +19,9 @@
   {% set addressSelectName = name + '[addressList]' if name else 'addressList' %}
 
   <div class="form-group notice postcode-lookup">
-    <div class="form-group notice postcode-search-container hidden js-visible">
-      <label for="{{ internalName }}" class="form-label">{{ t('Enter a UK postcode') }}</label>
+    {% set enterAddressError = form.errorFor(internalName) %}
+    <div class="form-group notice postcode-search-container hidden js-visible{% if enterAddressError %} form-group-error{% endif %}">
+      <label id="{{ internalName }}[label]" for="{{ internalName }}" class="form-label">{{ t('Enter a UK postcode') }}</label>
       <div class="postcode-search-error hidden">
         <span class="error-message">
           {{ t('We can’t find an address for that postcode. Try again or enter the address manually.') }}
@@ -31,11 +32,13 @@
          {{ t('We can’t find Northern Irish addresses by postcode - enter the address manually instead.') }}
         </span>
       </div>
-
+      {% if enterAddressError %}
+        <span class="error-message">{{ t(enterAddressError) }}</span>
+      {% endif %}
       <input  id="{{ internalName }}"
               autocomplete="postal-code"
               name="{{ internalName }}"
-              class="form-control"
+              class="form-control{% if enterAddressError %} form-control-error{% endif %}"
               value="{{ form.valueFor(internalName) | default('') }}" />
       <a href="#" id="{{ name + '[find-button]' if name else 'find-button' }}"
          role="button"
@@ -74,6 +77,12 @@
         compound=true, autocomplete = 'address-level2') }}
       {{ textInput('Postcode', name + '[postcode]' if name else 'postcode', form, inputClass='postcode form-control-1-4',
         autocomplete = 'postal-code') }}
+
+      <input class="postcode-address-visible" type="hidden"
+             name="{{ name + '[addressVisible]' if name else 'addressVisible' }}" />
+      <input class="address-selector-visible" type="hidden"
+             name="{{ name + '[addressSelectorVisible]' if name else 'addressSelectorVisible' }}" />
+
     </div>
   </div>
 {% endmacro %}

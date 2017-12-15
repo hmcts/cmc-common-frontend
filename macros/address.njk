@@ -60,16 +60,31 @@
     </div>
 
     <div class="address js-hidden">
-      <div class="form-group">
-        <label class="form-label" for="{{ name + '[line1]' if name else 'line1' }}">{{ t('Address') }}</label>
-        <input id="{{ name + '[line1]' if name else 'line1' }}"
-               class="form-control address-line1" name="{{ name + '[line1]' if name else 'line1' }}"
+        {% set line1Name = name + '[line1]' if name else 'line1' %}
+        {% set line2Name = name + '[line2]' if name else 'line2' %}
+
+        {% set line1Error = form.errorFor(line1Name) %}
+        {% set line2Error = form.errorFor(line2Name) %}
+
+      <div class="form-group{{ ' form-group-error' if line1Error or line2Error else '' }}">
+
+        <label id="{{ line1Name }}[label]" class="form-label" for="{{ line1Name }}">{{ t('Address') }}</label>
+        {% if line1Error %}
+          <span class="error-message">{{ t(line1Error) }}</span>
+        {% endif %}
+        <input id="{{ line1Name }}"
+               class="form-control address-line1 {% if line1Error %} form-control-error{% endif %}"
+               name="{{ line1Name }}"
                autocomplete="address-line1"
-               value="{{ form.valueFor(name + '[line1]' if name else 'line1') | default('') }}"
+               value="{{ form.valueFor(line1Name) | default('') }}"
         />
-        <input class="form-control second-text-input address-line2" name="{{ name + '[line2]' if name else 'line2' }}"
+        {% if line2Error %}
+          <span class="error-message">{{ t(line2Error) }}</span>
+        {% endif %}
+        <input class="form-control second-text-input address-line2 {% if line2Error %} form-control-error{% endif %}"
+               name="{{ line2Name }}"
                autocomplete="address-line2"
-               value="{{ form.valueFor(name + '[line2]' if name else 'line2') | default('') }}"
+               value="{{ form.valueFor(line2Name) | default('') }}"
                title="{{ t('Street line 2') }}"
         />
       </div>

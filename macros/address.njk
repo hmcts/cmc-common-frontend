@@ -96,6 +96,7 @@
         autocomplete = 'postal-code') }}
 
       {% set addressSelectorVisibleName = name + '[addressSelectorVisible]' if name else 'addressSelectorVisible' %}
+      {% set enterManuallyName = name + '[enterManually]' if name else 'enterManually' %}
 
       {# Default address visible to true for non js users #}
       <input class="postcode-address-visible" type="hidden" value="true"
@@ -104,8 +105,13 @@
              type="hidden"
              value="{{ form.valueFor(addressSelectorVisibleName) | default(false) }}"
              name="{{ addressSelectorVisibleName }}" />
-
+      <input class="postcode-enter-manually-visible"
+             type="hidden"
+             value="{{ form.valueFor(enterManuallyName) | default(false) }}"
+             name="{{ enterManuallyName }}"
+             />
     </div>
+    <a href="#" class="postcode-enter-manually">{{ t('Enter address manually') }}</a>
   </div>
 {% endmacro %}
 

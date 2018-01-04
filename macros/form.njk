@@ -98,7 +98,7 @@
            type="number"
            value="{{ value | default('') }}"
            {% if ariaLabelledBy %}aria-labelledby="{{ ariaLabelledBy }}"{% endif %}
-           {% if ariaDescribedBy %}aria-describedby="{{ ariaDescribedBy }}"{% endif %}>
+      {% if ariaDescribedBy %}aria-describedby="{{ ariaDescribedBy }}"{% endif %}>
   </span>
 
 {% endmacro %}
@@ -123,7 +123,7 @@
 
 {% macro submitButton(label = 'Continue', id = '') %}
   <div class="form-group">
-    <input type="submit" class="button" value="{{ t(label) }}" {% if id %}id="{{ id }}"{% endif %}>
+    <input type="submit" class="button" value="{{ t(label) }}"{% if id %}name="{{ id }}"{% endif %} {% if id %}id="{{ id }}"{% endif %}>
   </div>
 {% endmacro %}
 
@@ -137,21 +137,21 @@
 
 {% macro yesNoRadio(label, name, form, isInline = false, labelForScreenReadersOnly = true) %}
   {{ radioGroup(
-    label,
-    name,
-    [
-      { label: 'Yes', value: 'yes' },
-      { label: 'No', value: 'no' }
-    ],
-    form,
-    isInline = isInline,
-    labelForScreenReadersOnly = labelForScreenReadersOnly
-    )
+  label,
+  name,
+  [
+  { label: 'Yes', value: 'yes' },
+  { label: 'No', value: 'no' }
+  ],
+  form,
+  isInline = isInline,
+  labelForScreenReadersOnly = labelForScreenReadersOnly
+  )
   }}
 {% endmacro %}
 
-{% macro radioOption(label, name, form, value, hint = '', checked = form.valueFor(name) == value, bold = false) %}
-  {{ option(label, name, form, value, 'radio', hint, checked, bold) }}
+{% macro radioOption(label, name, form, value, hint = '', checked = form.valueFor(name) == value, bold = false, withHiddenControl = '') %}
+  {{ option(label, name, form, value, 'radio', hint, checked, bold, withHiddenControl) }}
 {% endmacro %}
 
 {% macro checkboxOption(label, name, form, value, hint = '', checked = false, bold = false) %}
@@ -179,6 +179,32 @@
   </div>
 {% endmacro %}
 
+{% macro radioOptionWithHiddenControl(label, name, form, value, type, hint = '', checked = false, bold = false, withHiddenControl = '') %}
+  <div class="multiple-choice" data-target="{{ value }}Hidden">
+    {% set idValue = name + value | replace(' ', '') %}
+    <input id="{{ idValue }}" type="radio" name="{{ name }}" value="{{ value }}"
+           {% if checked %}checked{% endif %}>
+    <label for="{{ idValue }}">
+      {% if hint == '' %}
+        {{ t(label) }}
+      {% else %}
+        {% if bold %}
+          <strong class="bold-small">{{ t(label) }}</strong>
+        {% else %}
+          {{ t(label) }}
+        {% endif %}
+        <br>
+        <span class="form-hint">{{ t(hint) }}</span>
+      {% endif %}
+    </label>
+  </div>
+  {% if withHiddenControl %}
+    <div class="panel panel-border-none js-hidden" id="{{ value }}Hidden" aria-hidden="false">
+      {{ textInput(t(withHiddenControl), value, form, inputClass='form-control-2-3') }}
+    </div>
+  {% endif %}
+{% endmacro %}
+
 {% macro checkboxGroup(label, name, options, form, isInline = false, bold = false, legendHidden = false) %}
   {% set error = form.errorFor(name) %}
   <div class="form-group {% if error %} form-group-error {% endif %}">
@@ -192,13 +218,13 @@
       {% for option in options %}
         {% set selection = form.valueFor(name).indexOf(option.value) %}
         {{ checkboxOption(
-          label = option.label,
-          name = name,
-          form = form,
-          value = option.value,
-          hint = option.hint,
-          checked = (selection != -1),
-          bold = bold
+        label = option.label,
+        name = name,
+        form = form,
+        value = option.value,
+        hint = option.hint,
+        checked = (selection != -1),
+        bold = bold
         )
         }}
       {% endfor %}
@@ -217,23 +243,23 @@
         </span>
         <span class="error-message">{{ t(error) }}</span>
       </legend>
-        {{ checkboxOption(
-        label = option.label,
-        name = name,
-        form = form,
-        value = option.value,
-        hint = option.hint,
-        checked = (selection === option.value),
-        bold = bold
-        )
-        }}
+      {{ checkboxOption(
+      label = option.label,
+      name = name,
+      form = form,
+      value = option.value,
+      hint = option.hint,
+      checked = (selection === option.value),
+      bold = bold
+      )
+      }}
     </fieldset>
   </div>
 {% endmacro %}
 
 {% macro radioGroup(
-    label, name, options, form, isInline = false, legendHidden = false, labelForScreenReadersOnly = false
-  ) %}
+label, name, options, form, isInline = false, legendHidden = false, labelForScreenReadersOnly = false
+) %}
 
   {% set error = form.errorFor(name) %}
   {% set selection = form.valueFor(name) %}
@@ -261,8 +287,8 @@
 {% endmacro %}
 
 {% macro radioGroupWithHintPanel(
-    label, name, options, form, isInline = false, legendHidden = false, labelForScreenReadersOnly = false
-  ) %}
+label, name, options, form, isInline = false, legendHidden = false, labelForScreenReadersOnly = false
+) %}
 
   {% set error = form.errorFor(name) %}
   {% set selection = form.valueFor(name) %}
@@ -289,6 +315,71 @@
           </div>
         {% endif %}
       {% endfor %}
+    </fieldset>
+  </div>
+{% endmacro %}
+
+{% macro radioGroupWithMoreOptions(
+label, name, options, moreOptions, form, isInline = false, legendHidden = false, labelForScreenReadersOnly = false, fieldName = ''
+) %}
+
+  {% set error = form.errorFor(name) %}
+  {% set selection = form.valueFor(name) %}
+  <div class="form-group {% if error %} form-group-error {% endif %}">
+    <fieldset name="{{ fieldName }}[label]" id="{{ fieldName }}[label]" {% if isInline %} class="inline" {% endif %}>
+      <legend {% if legendHidden %}class="visuallyhidden"{% endif %}>
+        <span class="form-group-compound {% if labelForScreenReadersOnly %}visually-hidden{% else %} form-label {% endif %}">
+          {{ t(label) }}
+        </span>
+        <span class="error-message">{{ t(error) }}</span>
+      </legend>
+      <div class="form-group-compound">
+        {% for option in options %}
+          {{ radioOptionWithHiddenControl(
+          label = option.label,
+          name = fieldName,
+          form = form,
+          value = option.value,
+          hint = option.hint,
+          checked = option.checked or (selection === option.value),
+          bold = option.bold,
+          withHiddenControl = option.withHiddenControl
+          ) }}
+        {% endfor %}
+      </div>
+
+      {% if moreOptions %}
+      {% set open = false %}
+      {% for option in moreOptions %}
+        {% if option.checked or (selection === option.value) %}
+          {% set open = true %}
+        {% endif %}
+      {% endfor %}
+      {% if open %}
+      <details open>
+        {% else %}
+        <details>
+          {% endif %}
+          <summary>
+            <span class="summary">{{ t('More options') }}</span>
+          </summary>
+
+          <div class="panel panel-border-narrow">
+            {% for option in moreOptions %}
+              {{ radioOptionWithHiddenControl(
+              label = option.label,
+              name = fieldName,
+              form = form,
+              value = option.value,
+              hint = option.hint,
+              checked = option.checked or (selection === option.value),
+              bold = option.bold,
+              withHiddenControl = option.withHiddenControl
+              ) }}
+            {% endfor %}
+          </div>
+        </details>
+        {% endif %}
     </fieldset>
   </div>
 {% endmacro %}

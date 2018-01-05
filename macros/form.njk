@@ -137,21 +137,21 @@
 
 {% macro yesNoRadio(label, name, form, isInline = false, labelForScreenReadersOnly = true) %}
   {{ radioGroup(
-  label,
-  name,
-  [
-  { label: 'Yes', value: 'yes' },
-  { label: 'No', value: 'no' }
-  ],
-  form,
-  isInline = isInline,
-  labelForScreenReadersOnly = labelForScreenReadersOnly
-  )
+    label,
+    name,
+    [
+      { label: 'Yes', value: 'yes' },
+      { label: 'No', value: 'no' }
+    ],
+    form,
+    isInline = isInline,
+    labelForScreenReadersOnly = labelForScreenReadersOnly
+    )
   }}
 {% endmacro %}
 
-{% macro radioOption(label, name, form, value, hint = '', checked = form.valueFor(name) == value, bold = false, withHiddenControl = '') %}
-  {{ option(label, name, form, value, 'radio', hint, checked, bold, withHiddenControl) }}
+{% macro radioOption(label, name, form, value, hint = '', checked = form.valueFor(name) == value, bold = false) %}
+  {{ option(label, name, form, value, 'radio', hint, checked, bold) }}
 {% endmacro %}
 
 {% macro checkboxOption(label, name, form, value, hint = '', checked = false, bold = false) %}
@@ -218,13 +218,13 @@
       {% for option in options %}
         {% set selection = form.valueFor(name).indexOf(option.value) %}
         {{ checkboxOption(
-        label = option.label,
-        name = name,
-        form = form,
-        value = option.value,
-        hint = option.hint,
-        checked = (selection != -1),
-        bold = bold
+          label = option.label,
+          name = name,
+          form = form,
+          value = option.value,
+          hint = option.hint,
+          checked = (selection != -1),
+          bold = bold
         )
         }}
       {% endfor %}
@@ -244,13 +244,13 @@
         <span class="error-message">{{ t(error) }}</span>
       </legend>
       {{ checkboxOption(
-      label = option.label,
-      name = name,
-      form = form,
-      value = option.value,
-      hint = option.hint,
-      checked = (selection === option.value),
-      bold = bold
+        label = option.label,
+        name = name,
+        form = form,
+        value = option.value,
+        hint = option.hint,
+        checked = (selection === option.value),
+        bold = bold
       )
       }}
     </fieldset>
@@ -258,8 +258,8 @@
 {% endmacro %}
 
 {% macro radioGroup(
-label, name, options, form, isInline = false, legendHidden = false, labelForScreenReadersOnly = false
-) %}
+    label, name, options, form, isInline = false, legendHidden = false, labelForScreenReadersOnly = false
+  ) %}
 
   {% set error = form.errorFor(name) %}
   {% set selection = form.valueFor(name) %}

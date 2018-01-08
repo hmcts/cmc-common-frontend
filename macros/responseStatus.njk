@@ -7,27 +7,22 @@
 
 {% macro responseStatusForDefendant(claim, url, isAfter4pm) %}
 
-  {% if claim.settlementReachedAt %}
-    {{ claimSettledStatus(url) }}
-  {% elseif claim.respondedAt %}
-    {% if claim.response.responseType === 'FULL_DEFENCE' %}
-      {% if claim.response.defenceType === 'ALREADY_PAID' %}
-        {{ t('You’ve rejected the claim. The case will be reviewed by a judge and might go to court.') }}
-      {% elseif claim.response.type === ResponseType.FULL_DEFENCE %}
-        {% if claim.response.freeMediation === 'yes'%}
-          {{ t('You’ve rejected the claim and suggested mediation on %s. They need to respond within 5 working days.',
-          { postProcess: 'sprintf', sprintf: [ claim.respondedAt | date ]}) }}
-        {% else %}
-          {{ t('You rejected the claim. The case will be reviewed by a judge and might go to court.') }}
-        {% endif %}
-      {% endif %}
-    {% else %}
-      {{ t('Your response is being processed. We will email you to explain what to do next.') }}
-    {% endif %}
-
-  {% elseif claim.countyCourtJudgmentRequestedAt %}
+  {% if claim.status === ClaimStatus.CCJ_REQUESTED %}
     {{ t('%s requested a County Court Judgment against you on %s. We will contact you both within 5 working days.',
     { postProcess: 'sprintf', sprintf: [ claim.claimData.claimant.name, claim.countyCourtJudgmentRequestedAt | date ]}) }}
+  {% elseif claim.settlementReachedAt %}
+    {{ claimSettledStatus(url) }}
+  {% elseif claim.response and claim.response.type === ResponseType.FULL_DEFENCE and claim.response.freeMediation === 'yes' %}
+    {{ t('You’ve rejected the claim and suggested mediation on %s. They need to respond within 5 working days.',
+    { postProcess: 'sprintf', sprintf: [ claim.respondedAt | date ]}) }}
+  {% elseif claim.response and claim.response.type === ResponseType.FULL_DEFENCE %}
+    {{ t('You’ve has rejected the claim. The case will be reviewed by a judge and might go to court.',
+    { postProcess: 'sprintf', sprintf: [ claim.claimData.defendant.name ]}) }}
+  {% elseif featureToggles.offer and claim.status === ClaimStatus.OFFER_SUBMITTED %}
+    {{ claimSettledStatus(url) }}
+    {{ t('You want to settle out of court.',
+    { postProcess: 'sprintf', sprintf: [ claim.claimData.defendant.name, url ] }) | safe }}
+    {#ToDO check#}
   {% else %}
     {{ t('<a href="%s">Respond to claim</a>', { postProcess: 'sprintf', sprintf: [ url ] }) | safe }}
     <span class="block mobile-inline">

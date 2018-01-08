@@ -16,7 +16,7 @@
   <div class="form-group notice postcode-lookup">
     {% set enterAddressError = form.errorFor(internalName) %}
     <div class="form-group notice postcode-search-container hidden js-visible{% if enterAddressError %} form-group-error{% endif %}">
-      <label id="{{ internalName }}[label]" for="{{ internalName }}" class="form-label">{{ t('Enter a UK postcode') }}</label>
+      <label id="{{ internalName + '[label]' }}" for="{{ internalName }}" class="form-label">{{ t('Enter a UK postcode') }}</label>
       <div class="postcode-search-error hidden">
         <span class="error-message">
           {{ t('We can’t find an address for that postcode. Try again or enter the address manually.') }}
@@ -94,7 +94,7 @@
 
   <div class="form-group{{ ' form-group-error' if line1Error or line2Error else '' }}">
 
-    <label id="{{ line1Name }}[label]" class="form-label" for="{{ line1Name }}">{{ t('Address') }}</label>
+    <label id="{{ line1Name + '[label]' }}" class="form-label" for="{{ line1Name }}">{{ t('Address') }}</label>
     {% if line1Error %}
       <span class="error-message">{{ t(line1Error) }}</span>
     {% endif %}

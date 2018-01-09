@@ -6,23 +6,19 @@
 {% endmacro %}
 
 {% macro responseStatusForDefendant(claim, url, isAfter4pm) %}
+  {{ claim.status }}
 
   {% if claim.status === ClaimStatus.CCJ_REQUESTED %}
     {{ t('%s requested a County Court Judgment against you on %s. We will contact you both within 5 working days.',
     { postProcess: 'sprintf', sprintf: [ claim.claimData.claimant.name, claim.countyCourtJudgmentRequestedAt | date ]}) }}
-  {% elseif claim.settlementReachedAt %}
-    {{ claimSettledStatus(url) }}
-  {% elseif claim.response and claim.response.type === ResponseType.FULL_DEFENCE and claim.response.freeMediation === 'yes' %}
+  {% elseif claim.status === ClaimStatus.FREE_MEDIATION %}
     {{ t('You’ve rejected the claim and suggested mediation on %s. They need to respond within 5 working days.',
     { postProcess: 'sprintf', sprintf: [ claim.respondedAt | date ]}) }}
-  {% elseif claim.response and claim.response.type === ResponseType.FULL_DEFENCE %}
-    {{ t('You’ve has rejected the claim. The case will be reviewed by a judge and might go to court.',
-    { postProcess: 'sprintf', sprintf: [ claim.claimData.defendant.name ]}) }}
-  {% elseif featureToggles.offer and claim.status === ClaimStatus.OFFER_SUBMITTED %}
-    {{ claimSettledStatus(url) }}
-    {{ t('You want to settle out of court.',
-    { postProcess: 'sprintf', sprintf: [ claim.claimData.defendant.name, url ] }) | safe }}
-    {#ToDO check#}
+  {% elseif claim.status === ClaimStatus.CLAIM_REJECTED %}
+    {{ t('You’ve has rejected the claim. The case will be reviewed by a judge and might go to court.' ) }}
+  {% elseif claim.status === ClaimStatus.OFFER_SUBMITTED %}
+    {{ t('You have made an offer to %s and must wait for their response.',
+    { postProcess: 'sprintf', sprintf: [ claim.claimData.claimant.name ]}) }}
   {% else %}
     {{ t('<a href="%s">Respond to claim</a>', { postProcess: 'sprintf', sprintf: [ url ] }) | safe }}
     <span class="block mobile-inline">
@@ -41,13 +37,13 @@
     {{ t('Request a County Court Judgment.') }}
   {% elseif claim.settlementReachedAt %}
     {{ claimSettledStatus(url) }}
-  {% elseif claim.response and claim.response.type === ResponseType.FULL_DEFENCE and claim.response.freeMediation === 'yes' %}
+  {% elseif claim.status === ClaimStatus.FREE_MEDIATION %}
     {{ t('%s has rejected the claim. They’ve suggested free mediation on %s. You need to respond within 5 working days.',
     { postProcess: 'sprintf', sprintf: [ claim.response.defendant.name, claim.respondedAt | date ]}) }}
-  {% elseif claim.response and claim.response.type === ResponseType.FULL_DEFENCE %}
+  {% elseif claim.status === ClaimStatus.CLAIM_REJECTED %}
     {{ t('%s has rejected the claim. The case will be reviewed by a judge and might go to court.',
     { postProcess: 'sprintf', sprintf: [ claim.claimData.defendant.name ]}) }}
-  {% elseif featureToggles.offer and claim.status === ClaimStatus.OFFER_SUBMITTED %}
+  {% elseif claim.status === ClaimStatus.OFFER_SUBMITTED %}
     {{ t('%s wants to settle out of court. View <a href="%s">their offer</a>.',
     { postProcess: 'sprintf', sprintf: [ claim.claimData.defendant.name, url ] }) | safe }}
   {% elseif claim.status === ClaimStatus.MORE_TIME_REQUESTED %}

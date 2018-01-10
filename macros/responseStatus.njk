@@ -6,7 +6,6 @@
 {% endmacro %}
 
 {% macro responseStatusForDefendant(claim, url, isAfter4pm) %}
-  {{ claim.status }}
 
   {% if claim.status === ClaimStatus.OFFER_SETTLEMENT_REACHED %}
     {{ claimSettledStatus(url) }}

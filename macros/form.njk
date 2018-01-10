@@ -1,8 +1,8 @@
-{% macro input(label, name, form, hint, type='text', inputClass='', compound=false, autocomplete='on') %}
+{% macro input(label, name, form, hint, type='text', inputClass='', compound=false, autocomplete='on', labelClass='') %}
   {% set error = form.errorFor(name) %}
   {% set formGroupClass = 'form-group-compound' if compound else 'form-group' %}
   <div class="{{ formGroupClass }} {% if error %}form-group-error{% endif %}">
-    <label for="{{ name }}" id="{{ name }}[label]" class="form-label">{{ t(label) }}
+    <label for="{{ name }}" id="{{ name }}[label]" class="form-label {% if labelClass %}{{ labelClass }}{% endif %}">{{ t(label) }}
       {% if hint %}
         <span class="form-hint">{{ t(hint) }}</span>
       {% endif %}
@@ -103,8 +103,8 @@
 
 {% endmacro %}
 
-{% macro emailInput(label, name, form, hint='') %}
-  {{ input(label, name, form, hint, 'email') }}
+{% macro emailInput(label, name, form, hint='', labelClass='') %}
+  {{ input(label, name, form, hint, 'email', labelClass = labelClass) }}
 {% endmacro %}
 
 {% macro textArea(label, name, form, inputClass='form-control-3-4', rows=5, labelClass='', bold = false) %}

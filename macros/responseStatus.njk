@@ -6,8 +6,9 @@
 {% endmacro %}
 
 {% macro responseStatusForDefendant(claim, url, isAfter4pm) %}
+  {{ claim.status }}
 
-  {% if claim.settlementReachedAt %}
+  {% if claim.status === ClaimStatus.OFFER_SETTLEMENT_REACHED %}
     {{ claimSettledStatus(url) }}
   {% elseif claim.status === ClaimStatus.CCJ_REQUESTED %}
     {{ t('%s requested a County Court Judgment against you on %s. We will contact you both within 5 working days.',
@@ -36,7 +37,7 @@
     { postProcess: 'sprintf', sprintf: [ claim.countyCourtJudgmentRequestedAt | date ]}) }}
   {% elseif claim.status === ClaimStatus.ELIGIBLE_FOR_CCJ %}
     {{ t('Request a County Court Judgment.') }}
-  {% elseif claim.settlementReachedAt %}
+  {% elseif claim.status === ClaimStatus.OFFER_SETTLEMENT_REACHED %}
     {{ claimSettledStatus(url) }}
   {% elseif claim.status === ClaimStatus.FREE_MEDIATION %}
     {{ t('%s has rejected the claim. They’ve suggested free mediation on %s. You need to respond within 5 working days.',

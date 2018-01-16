@@ -88,18 +88,20 @@
 {% macro addressFragment(form, name) %}
   {% set line1Name = name + '[line1]' if name else 'line1' %}
   {% set line2Name = name + '[line2]' if name else 'line2' %}
+  {% set line3Name = name + '[line3]' if name else 'line3' %}
 
   {% set line1Error = form.errorFor(line1Name) %}
   {% set line2Error = form.errorFor(line2Name) %}
+  {% set line3Error = form.errorFor(line3Name) %}
 
-  <div class="form-group{{ ' form-group-error' if line1Error or line2Error else '' }}">
+  <div class="form-group{{ ' form-group-error' if line1Error or line2Error or line3Error else '' }}">
 
     <label id="{{ line1Name + '[label]' }}" class="form-label" for="{{ line1Name }}">{{ t('Address') }}</label>
     {% if line1Error %}
       <span class="error-message">{{ t(line1Error) }}</span>
     {% endif %}
     <input id="{{ line1Name }}"
-           class="form-control address-line1 {% if line1Error %} form-control-error{% endif %}"
+           class="form-control form-group-compound address-line1 {% if line1Error %} form-control-error{% endif %}"
            name="{{ line1Name }}"
            autocomplete="address-line1"
            value="{{ form.valueFor(line1Name) | default('') }}"
@@ -108,11 +110,21 @@
       <span class="error-message">{{ t(line2Error) }}</span>
     {% endif %}
     <input id="{{ line2Name }}"
-           class="form-control second-text-input address-line2 {% if line2Error %} form-control-error{% endif %}"
+           class="form-control form-group-compound address-line2 {% if line2Error %} form-control-error{% endif %}"
            name="{{ line2Name }}"
            autocomplete="address-line2"
            value="{{ form.valueFor(line2Name) | default('') }}"
            title="{{ t('Street line 2') }}"
+    />
+    {% if line3Error %}
+      <span class="error-message">{{ t(line3Error) }}</span>
+    {% endif %}
+    <input id="{{ line3Name }}"
+           class="form-control address-line3 {% if line3Error %} form-control-error{% endif %}"
+           name="{{ line3Name }}"
+           autocomplete="address-line3"
+           value="{{ form.valueFor(line3Name) | default('') }}"
+           title="{{ t('Street line 3') }}"
     />
   </div>
   {{ textInput('Town or city', name + '[city]' if name else 'city', form, inputClass='address-town-or-city',

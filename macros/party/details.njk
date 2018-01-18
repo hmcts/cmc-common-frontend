@@ -50,6 +50,7 @@
   values = [
   partyDetails.address.line1,
   partyDetails.address.line2 | default(''),
+  partyDetails.address.line3 | default(''),
   partyDetails.address.city,
   partyDetails.address.postcode
   ],
@@ -62,6 +63,7 @@
       {% set correspondenceAddressLines = [
       partyDetails.correspondenceAddress.line1,
       partyDetails.correspondenceAddress.line2 | default(''),
+      partyDetails.correspondenceAddress.line3 | default(''),
       partyDetails.correspondenceAddress.city,
       partyDetails.correspondenceAddress.postcode
       ] %}

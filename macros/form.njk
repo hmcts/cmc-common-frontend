@@ -12,7 +12,7 @@
     {% endif %}
     <input id="{{ name }}" name="{{ name }}" type="{{ type }}" autocomplete="{{ autocomplete | default('on') }}"
            class="form-control {{ inputClass }} {% if error %}form-control-error{% endif %}"
-           value="{{ form.valueFor(name) | default('') }}">
+           value="{{ (form.rawDataFor(name) if error else form.valueFor(name)) | default('') }}">
   </div>
 {% endmacro %}
 
@@ -39,7 +39,7 @@
     {% endif %}
     <span class="input-symbol-pound">
       <input id="{{ name }}"
-             name="{{ name }}" value="{{ form.valueFor(name) | default('') }}"
+             name="{{ name }}" value="{{ (form.rawDataFor(name) if error else form.valueFor(name)) | default('') }}"
              type="number"
              class="form-control {% if error %} form-control-error {% endif %}"
              maxlength="10" size="7">
@@ -75,7 +75,7 @@
     <input
       id="{{ name }}" name="{{ name }}"
       class="form-control {{ inputClass }} {% if error %} form-control-error {% endif %}"
-      value="{{ form.valueFor(name) | default('') }}"
+      value="{{ (form.rawDataFor(name) if error else form.valueFor(name)) | default('') }}"
       {% if ariaLabelledBy %}
         aria-labelledby="{{ ariaLabelledBy }}"
       {% endif %}
@@ -88,8 +88,8 @@
 
 {% macro poundInputInline(name, label, form, inputClass = 'column-2', ariaLabelledBy='', ariaDescribedBy='') %}
 
-  {% set value = form.valueFor(name) %}
   {% set error = form.errorFor(name) %}
+  {% set value = (form.rawDataFor(name) if error else form.valueFor(name)) %}
 
   <label class="form-label-bold mobile-show" for="{{ name }}">{{ t(label) }}</label>
   <span class="input-symbol-pound">

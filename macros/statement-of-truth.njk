@@ -12,7 +12,7 @@ macro statementOfTruth(
   <p class="bold-medium">{{ t(title) }}</p>
 
   {% if isQualified %}
-    <p>{{ t('You must hold a senior position in your company to sign the %s.',
+    <p>{{ t('You must hold a senior position in your organisation to sign the %s.',
     {
       postProcess: 'sprintf',
       sprintf: [typeOfStatement]
@@ -33,7 +33,6 @@ macro statementOfTruth(
         </ul>
         <p>{{ t("If your company isn't registered, a senior position could also be the:") }}</p>
         <ul class="list-bullet list">
-          <li>{{ t('mayor') }}</li>
           <li>{{ t('chairman') }}</li>
           <li>{{ t('president') }}</li>
           <li>{{ t('town clerk or other similar officer of the corporation.') }}</li>

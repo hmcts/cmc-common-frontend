@@ -1,0 +1,17 @@
+{% macro interestSnippet(label = 'Interest', rate, numberOfDays, interestDate, today) %}
+  <details role="group">
+    <summary role="button" aria-controls="details-content-0" aria-expanded="false">
+      {{ t(label) }}
+    </summary>
+    <div class="panel text-small" id="details-content-0" aria-hidden>
+      <div>
+        {{ t('Interest calculated at %s%% for %s days', {
+          postProcess: 'sprintf', sprintf: [ rate, numberOfDays ] })
+        }}
+      </div>
+      <div class="font-xsmall">
+        ({{ t('%s to %s', { postProcess: 'sprintf', sprintf: [ interestDate | date, today | date ]}) }})
+      </div>
+    </div>
+  </details>
+{% endmacro %}

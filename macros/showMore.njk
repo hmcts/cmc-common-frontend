@@ -1,11 +1,11 @@
 {% macro showMore(label, content) %}
   <div class="show-more">
     <div class="bold-small">{{ t(label) }}</div>
-    {% if longText.length > 400 %}
+    {% if content.length > 400 %}
       <input id="more-less" type="checkbox">
     {% endif %}
     <p class="form-group-compound">{{ content }}</p>
-    {% if longText.length > 400 %}
+    {% if content.length > 400 %}
       <label class="link more" for="more-less">{{ t('Show more') }}</label>
       <label class="link less" for="more-less">{{ t('Show less') }}</label>
     {% endif %}

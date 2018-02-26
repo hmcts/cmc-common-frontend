@@ -9,7 +9,7 @@
         {{ readOnlyField(field.label, field.value) }}
       {% endif %}
     {% else %}
-      {{ textInput(form = form, label = t(field.label), name = field.name, autocomplete = field.autocomplete) }}
+      {{ textInput(form = form, label = t(field.label), name = field.name, autocomplete = field.autocomplete, hint = field.hint) }}
     {% endif %}
   {% endfor %}
 

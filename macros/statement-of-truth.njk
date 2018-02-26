@@ -4,7 +4,6 @@
 macro statementOfTruth(
   form,
   title = 'Statement of truth',
-  warningMessage = 'You could be fined or go to prison if you deliberately give untrue or misleading information.',
   label = 'I confirm that I believe the details I have provided are correct.',
   isQualified = false,
   typeOfStatement = 'statement of truth'
@@ -43,15 +42,6 @@ macro statementOfTruth(
     {{ textInput(t('Full name'), 'signerName', form, inputClass = 'form-control-1-2') }}
     {{ textInput(t('Role'), 'signerRole', form, inputClass = 'form-control-1-2') }}
   {% endif %}
-
-  <div class="notice notice-medium">
-    <i class="icon icon-important">
-      <span class="visually-hidden">{{ t('Warning') }}</span>
-    </i>
-    <strong class="bold-small">
-      {{ t(warningMessage) }}
-    </strong>
-  </div>
 
   {{
   checkboxSingle(

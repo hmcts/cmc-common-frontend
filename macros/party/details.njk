@@ -31,17 +31,17 @@
 {% endmacro %}
 
 {% macro partyDetailsSummaryFragment(partyDetails, showCorrespondenceAddressSection = true, changeLinks = {}) %}
-  {{ row('Full name', partyDetails.name, changeLinks.partyDetails or changeLinks.name) }}
+  {{ row('Full name', partyDetails.name, changeLinks.partyDetails or changeLinks.name, bold = true) }}
 
   {% if (partyDetails.type === 'company' or partyDetails.type === 'organisation') %}
     {% if partyDetails.contactPerson %}
-      {{ row('Contact person', partyDetails.contactPerson, changeLinks.partyDetails or changeLinks.contactPerson) }}
+      {{ row('Contact person', partyDetails.contactPerson, changeLinks.partyDetails or changeLinks.contactPerson, bold = true) }}
     {% endif %}
   {% endif %}
 
   {% if (partyDetails.type === 'soleTrader') %}
     {% if partyDetails.businessName %}
-      {{ row('Business name', 'Trading as ' + partyDetails.businessName, changeLinks.partyDetails or changeLinks.businessName) }}
+      {{ row('Business name', 'Trading as ' + partyDetails.businessName, changeLinks.partyDetails or changeLinks.businessName, bold = true) }}
     {% endif %}
   {% endif %}
 
@@ -55,7 +55,8 @@
   partyDetails.address.postcode
   ],
   bottomBorder = not showCorrespondenceAddressSection,
-  changeLink = changeLinks.partyDetails or changeLinks.address
+  changeLink = changeLinks.partyDetails or changeLinks.address,
+  bold = true
   ) }}
 
   {% if showCorrespondenceAddressSection %}
@@ -72,11 +73,12 @@
     {% endif %}
     {{ rowWithMultipleValue(
     label = 'Correspondence address',
-    values = correspondenceAddressLines
+    values = correspondenceAddressLines,
+    bold = true
     ) }}
   {% endif %}
 
   {% if (partyDetails.type === 'individual' and partyDetails.dateOfBirth and partyDetails.dateOfBirth.date) %}
-    {{ row('Date of birth', partyDetails.dateOfBirth.date.toMoment() | date, changeLinks.dateOfBirth) }}
+    {{ row('Date of birth', partyDetails.dateOfBirth.date.toMoment() | date, changeLinks.dateOfBirth, bold = true) }}
   {% endif %}
 {% endmacro %}

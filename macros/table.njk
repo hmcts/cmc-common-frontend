@@ -10,10 +10,10 @@
 </fieldset>
 {% endmacro %}
 
-{% macro row( label, value, changeLink, bottomBorder = true) %}
+{% macro row(label, value, changeLink, bottomBorder = true, bold = false) %}
   <div class="{% if bottomBorder %}bottom-border{% else %}no-bottom-border{% endif %}">
     <div class="column-one-quarter  {% if not label %}if-empty{% endif %}">
-      <span>{{ t( label ) }}</span>
+      <span {% if bold %}class="form-label-bold"{% endif %}>{{ t( label ) }}</span>
     </div>
     <div class="column-one-half {% if not value %}if-empty{% endif %}">
       <span>{{ value }}</span>
@@ -26,10 +26,10 @@
   </div>
 {% endmacro %}
 
-{% macro rowWithMultipleValue( label, values, changeLink, bottomBorder = true) %}
+{% macro rowWithMultipleValue( label, values, changeLink, bottomBorder = true, bold = false) %}
   <div class="{% if bottomBorder %}bottom-border{% else %}no-bottom-border{% endif %}">
     <div class="column-one-quarter {% if not label %}if-empty{% endif %}">
-      <span>{{ t( label ) }}</span>
+      <span {% if bold %}class="form-label-bold"{% endif %}>{{ t( label ) }}</span>
     </div>
     <div class="column-one-half">
       {% for value in values %}

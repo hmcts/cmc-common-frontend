@@ -2,7 +2,7 @@
 {% from "address.njk" import postcodeLookupAddressFragment, addressFragment, correspondenceAddressFragment %}
 {% from "table.njk" import tableStart,tableEnd, row, rowWithMultipleValue %}
 
-{% macro partyDetailsFragment(form, fields, addressSection, showCorrespondenceAddressSection = false) %}
+{% macro partyDetailsFragment(form, fields, addressSection, showCorrespondenceAddressSection = false, postcodeLabel = 'Enter a UK postcode') %}
   {% for field in fields %}
     {% if field.readOnly %}
       {% if field.value %}
@@ -19,7 +19,7 @@
       <p>{{ t(addressSection.hint) }}</p>
     {% endif %}
     {% if addressSection.postcodeLookup %}
-      {{ postcodeLookupAddressFragment(form = form, name = addressSection.name) }}
+      {{ postcodeLookupAddressFragment(form = form, name = addressSection.name, postcodeLabel = postcodeLabel ) }}
     {% else %}
       {{ addressFragment(form = form, name = addressSection.name) }}
     {% endif %}

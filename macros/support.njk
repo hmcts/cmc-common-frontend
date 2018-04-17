@@ -1,9 +1,9 @@
+{% from "./macro/callCharges.njk" import callCharges %}
+
 {% macro supportWidget(label = 'Help and support') %}
     <h2 class="heading-medium">{{ t(label) }}</h2>
     <pre>{{ t("Email: " + supportEmailAddress) }}</pre>
     <pre>{{ t('Telephone: 0300 123 7050') }}</pre>
     <pre>{{ t("Hours: 9am to 5pm, Monday to Friday") }}</pre>
-    <p>
-        <a target="_blank" href="https://www.gov.uk/call-charges">{{ t("Find out about call charges") }}<span class="font-xsmall">{{ t('(opens in a new window)') }}</span></a>
-    </p>
+    {{ callCharges() }}
 {% endmacro %}

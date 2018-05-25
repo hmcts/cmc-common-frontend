@@ -1,4 +1,4 @@
-{% macro input(label, name, form, hint, type='text', inputClass='', compound=false, autocomplete='on', labelClass='') %}
+{% macro input(label, name, form, hint, type='text', inputClass='', compound=false, autocomplete='on', labelClass='', maxLength='') %}
   {% set error = form.errorFor(name) %}
   {% set formGroupClass = 'form-group-compound' if compound else 'form-group' %}
   <div class="{{ formGroupClass }} {% if error %}form-group-error{% endif %}">
@@ -12,6 +12,7 @@
     {% endif %}
     <input id="{{ name }}" name="{{ name }}" type="{{ type }}" autocomplete="{{ autocomplete | default('on') }}"
            class="form-control {{ inputClass }} {% if error %}form-control-error{% endif %}"
+           {% if maxLength %}maxlength="{{ maxLength }}"{% endif %}
            value="{{ (form.rawDataFor(name) if error else form.valueFor(name)) | default('') }}">
   </div>
 {% endmacro %}

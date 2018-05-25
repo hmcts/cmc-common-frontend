@@ -25,10 +25,6 @@
   {{ input(label, name, form, hint, 'number', inputClass, compound, autocomplete) }}
 {% endmacro %}
 
-{% macro claimReferenceInput(label, name, form, hint, inputClass='', compound=false, autocomplete='on') %}
-  {{ input(label, name, form, hint, 'text', inputClass, compound, autocomplete, maxLength='8') }}
-{% endmacro %}
-
 {% macro poundInput(label, name, form, hint, bold = false) %}
   {% set error = form.errorFor(name) %}
   <div class="form-group {% if error %} form-group-error {% endif %}">

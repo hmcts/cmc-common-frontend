@@ -152,15 +152,15 @@
 {% endmacro %}
 
 {% macro radioOption(label, name, form, value, hint = '', checked = form.valueFor(name) == value, bold = false) %}
-  {{ option(label, name, form, value, 'radio', hint, checked, bold) }}
+  {{ option(label = label, name = name, form = form, value = value, type = 'radio', hint = hint, checked = checked, bold = bold) }}
 {% endmacro %}
 
 {% macro checkboxOption(label, name, form, value, hint = '', checked = false, bold = false) %}
   {{ option(label, name, form, value, 'checkbox', hint, checked, bold) }}
 {% endmacro %}
 
-{% macro option(label, name, form, value, type, hint = '', checked = false, bold = false) %}
-  <div class="multiple-choice" data-target="{{ name }}-{{ value }}">
+{% macro option(label, name, form, value, type, hint = '', checked = false, bold = false, hidden, className, dataTarget) %}
+  <div class="multiple-choice {{ className | default('') }}" data-target="{{ dataTarget | default(name + '-' + value ) }}">
     {% set idValue = name + value | replace(' ', '') %}
     <input id="{{ idValue }}" type="{{ type }}" name="{{ name }}" value="{{ value }}"
            {% if checked %}checked{% endif %}>
@@ -274,13 +274,13 @@
       </legend>
       {% for option in options %}
         {{ radioOption(
-        label = option.label,
-        name = name,
-        form = form,
-        value = option.value,
-        hint = option.hint,
-        checked = option.checked or (selection === option.value),
-        bold = option.bold
+          label = option.label,
+          name = name,
+          form = form,
+          value = option.value,
+          hint = option.hint,
+          checked = option.checked or (selection === option.value),
+          bold = option.bold
         ) }}
       {% endfor %}
     </fieldset>
@@ -303,12 +303,12 @@
       </legend>
       {% for option in options %}
         {{ radioOption(
-        label = option.label,
-        name = name,
-        form = form,
-        value = option.value,
-        checked = option.checked or (selection === option.value),
-        bold = option.bold
+          label = option.label,
+          name = name,
+          form = form,
+          value = option.value,
+          checked = option.checked or (selection === option.value),
+          bold = option.bold
         ) }}
         {% if option.hint %}
           <div class="panel panel-border-narrow js-hidden" id="{{ name }}-{{ option.value }}" aria-hidden="false">
@@ -321,9 +321,8 @@
 {% endmacro %}
 
 {% macro radioGroupWithMoreOptions(
-label, name, options, moreOptions, form, isInline = false, legendHidden = false, labelForScreenReadersOnly = false, fieldName = ''
-) %}
-
+  label, name, options, moreOptions, form, isInline = false, legendHidden = false, labelForScreenReadersOnly = false, fieldName = ''
+  ) %}
   {% set error = form.errorFor(name) %}
   {% set selection = form.valueFor(name) %}
   <div class="form-group {% if error %} form-group-error {% endif %}">
@@ -337,14 +336,14 @@ label, name, options, moreOptions, form, isInline = false, legendHidden = false,
       <div class="form-group-compound">
         {% for option in options %}
           {{ radioOptionWithHiddenControl(
-          label = option.label,
-          name = fieldName,
-          form = form,
-          value = option.value,
-          hint = option.hint,
-          checked = option.checked or (selection === option.value),
-          bold = option.bold,
-          withHiddenControl = option.withHiddenControl
+            label = option.label,
+            name = fieldName,
+            form = form,
+            value = option.value,
+            hint = option.hint,
+            checked = option.checked or (selection === option.value),
+            bold = option.bold,
+            withHiddenControl = option.withHiddenControl
           ) }}
         {% endfor %}
       </div>
@@ -368,14 +367,14 @@ label, name, options, moreOptions, form, isInline = false, legendHidden = false,
           <div class="panel panel-border-narrow">
             {% for option in moreOptions %}
               {{ radioOptionWithHiddenControl(
-              label = option.label,
-              name = fieldName,
-              form = form,
-              value = option.value,
-              hint = option.hint,
-              checked = option.checked or (selection === option.value),
-              bold = option.bold,
-              withHiddenControl = option.withHiddenControl
+                label = option.label,
+                name = fieldName,
+                form = form,
+                value = option.value,
+                hint = option.hint,
+                checked = option.checked or (selection === option.value),
+                bold = option.bold,
+                withHiddenControl = option.withHiddenControl
               ) }}
             {% endfor %}
           </div>

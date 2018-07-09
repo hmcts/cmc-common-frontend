@@ -1,3 +1,5 @@
+{% from "button/macro.njk" import govukButton %}
+
 {% macro input(label, name, form, hint, type='text', inputClass='', compound=false, autocomplete='on', labelClass='', maxLength='') %}
   {% set error = form.errorFor(name) %}
   {% set formGroupClass = 'form-group-compound' if compound else 'form-group' %}
@@ -129,7 +131,12 @@
 {% endmacro %}
 
 {% macro saveAndContinueButton() %}
-  {{ submitButton('Save and continue', id = 'saveAndContinue') }}
+  {{ govukButton({
+      text: t('Save and continue'),
+      attributes: { 'id': 'saveAndContinue' }
+    })
+  }}
+
 {% endmacro %}
 
 {% macro linkButton(label, name, class) %}
@@ -409,6 +416,6 @@ label, name, options, moreOptions, form, isInline = false, legendHidden = false,
 {% endmacro %}
 
 {% macro readOnlyField(label, value) %}
-  <h2 class="heading-medium">{{ t(label) }}</h2>
-  <p>{{ value }}</p>
+  <h2 class="govuk-heading-m">{{ t(label) }}</h2>
+  <p class="govuk-body">{{ value }}</p>
 {% endmacro %}

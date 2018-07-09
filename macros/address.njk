@@ -1,4 +1,6 @@
 {% from "form.njk" import csrfProtection, textInput, radioGroup, saveAndContinueButton %}
+{% from "button/macro.njk" import govukButton %}
+{% from "radios/macro.njk" import govukRadios %}
 
 {% macro addressForm(form, csrfToken) %}
     <form method="post">
@@ -13,48 +15,54 @@
   {% set internalName = name + '[postcodeLookup]' if name else 'postcodeLookup' %}
   {% set addressSelectName = name + '[addressList]' if name else 'addressList' %}
 
-  <div class="form-group notice postcode-lookup">
+  <div class="govuk-form-group notice postcode-lookup">
     {% set enterAddressError = form.errorFor(internalName) %}
-    <div class="form-group notice postcode-search-container hidden js-visible{% if enterAddressError %} form-group-error{% endif %}">
-      <label id="{{ internalName + '[label]' }}" for="{{ internalName }}" class="form-label">{{ t(postcodeLabel) }}</label>
+    <div class="govuk-form-group notice postcode-search-container hidden js-visible{% if enterAddressError %} govuk-form-group-error{% endif %}">
+      <label id="{{ internalName + '[label]' }}" for="{{ internalName }}" class="govuk-label">{{ t(postcodeLabel) }}</label>
       <div class="postcode-search-error hidden">
-        <span class="error-message">
+        <span class="govuk-error-message">
           {{ t('We can’t find an address for that postcode. Try again or enter the address manually.') }}
         </span>
       </div>
       <div class="postcode-search-error-ni hidden">
-        <span class="error-message">
+        <span class="govuk-error-message">
          {{ t('We can’t find Northern Irish addresses by postcode - enter the address manually instead.') }}
         </span>
       </div>
       {% if enterAddressError %}
-        <span class="error-message">{{ t(enterAddressError) }}</span>
+        <span class="govuk-error-message">{{ t(enterAddressError) }}</span>
       {% endif %}
       <input  id="{{ internalName }}"
               autocomplete="postal-code"
               name="{{ internalName }}"
-              class="form-control{% if enterAddressError %} form-control-error{% endif %}"
+              class="govuk-input govuk-input--width-20{% if enterAddressError %} govuk-input--error{% endif %}"
               value="{{ form.valueFor(internalName) | default('') }}" />
-      <a href="#" id="{{ name + '[find-button]' if name else 'find-button' }}"
-         role="button"
-         class="button button-secondary postcode-search">
-        {{ t('Find address') }}
+      {{ govukButton({
+        id: name + '[find-button]' if name else 'find-button',
+        text: t('Find address'),
+        classes: 'postcode-search',
+        href: '#'
+      }) }}
+
+      {% set enterManuallyName = name + '[enterManually]' if name else 'enterManually' %}
+      <a id="{{ enterManuallyName }}" href="#" class="govuk-link postcode-enter-manually govuk-!-display-block">
+        {{ t('Enter address manually') }}
       </a>
     </div>
 
     {% set addressSelectError = form.errorFor(addressSelectName) %}
     <div id="{{ name + '[select-address]' if name else 'select-address' }}"
-         class="form-group hidden postcode-address-picker{% if addressSelectError %} form-group-error{% endif %}">
-      <div class="form-group">
-        <label id="{{ addressSelectName }}[label]" class="form-label">
+         class="govuk-form-group hidden postcode-address-picker{% if addressSelectError %} govuk-form-group-error{% endif %}">
+      <div class="govuk-form-group">
+        <label id="{{ addressSelectName }}[label]" class="govuk-label">
           {{ t('Pick an address') }}
         </label>
 
         {% if addressSelectError %}
-          <span class="error-message">{{ t(addressSelectError) }}</span>
+          <span class="govuk-error-message">{{ t(addressSelectError) }}</span>
         {% endif %}
         <select id="{{ addressSelectName }}"
-                class="form-control postcode-select {% if addressSelectError %} form-control-error{% endif %}"
+                  class="govuk-select govuk-input--width-20 postcode-select {% if addressSelectError %} govuk-input--error{% endif %}"
                 name="{{ addressSelectName }}"
                 title="{{ t('Pick an address') }}">
         </select>
@@ -66,7 +74,6 @@
       {{ addressFragment(form, name) }}
 
       {% set addressSelectorVisibleName = name + '[addressSelectorVisible]' if name else 'addressSelectorVisible' %}
-      {% set enterManuallyName = name + '[enterManually]' if name else 'enterManually' %}
 
       {# Default address visible to true for non js users #}
       <input class="postcode-address-visible" type="hidden" value="true"
@@ -81,7 +88,6 @@
              name="{{ enterManuallyName }}"
              />
     </div>
-    <a id="{{ name + '[enterManually]' }}" href="#" class="postcode-enter-manually">{{ t('Enter address manually') }}</a>
   </div>
 {% endmacro %}
 
@@ -94,33 +100,33 @@
   {% set line2Error = form.errorFor(line2Name) %}
   {% set line3Error = form.errorFor(line3Name) %}
 
-  <div class="form-group{{ ' form-group-error' if line1Error or line2Error or line3Error else '' }}">
+  <div class="govuk-form-group{{ ' govuk-form-group-error' if line1Error or line2Error or line3Error else '' }}">
 
-    <label id="{{ line1Name + '[label]' }}" class="form-label" for="{{ line1Name }}">{{ t('Address') }}</label>
+    <label id="{{ line1Name + '[label]' }}" class="govuk-label" for="{{ line1Name }}">{{ t('Address') }}</label>
     {% if line1Error %}
-      <span class="error-message">{{ t(line1Error) }}</span>
+      <span class="govuk-error-message">{{ t(line1Error) }}</span>
     {% endif %}
     <input id="{{ line1Name }}"
-           class="form-control form-group-compound address-line1 {% if line1Error %} form-control-error{% endif %}"
+           class="govuk-input govuk-input--width-20 address-line1 {% if line1Error %} govuk-input--error{% endif %}"
            name="{{ line1Name }}"
            autocomplete="address-line1"
            value="{{ form.valueFor(line1Name) | default('') }}"
     />
     {% if line2Error %}
-      <span class="error-message">{{ t(line2Error) }}</span>
+      <span class="govuk-error-message">{{ t(line2Error) }}</span>
     {% endif %}
     <input id="{{ line2Name }}"
-           class="form-control form-group-compound address-line2 {% if line2Error %} form-control-error{% endif %}"
+           class="govuk-input govuk-input--width-20 govuk-form-group-compound address-line2 {% if line2Error %} govuk-input--error{% endif %}"
            name="{{ line2Name }}"
            autocomplete="address-line2"
            value="{{ form.valueFor(line2Name) | default('') }}"
            title="{{ t('Street line 2') }}"
     />
     {% if line3Error %}
-      <span class="error-message">{{ t(line3Error) }}</span>
+      <span class="govuk-error-message">{{ t(line3Error) }}</span>
     {% endif %}
     <input id="{{ line3Name }}"
-           class="form-control address-line3 {% if line3Error %} form-control-error{% endif %}"
+           class="govuk-input govuk-input--width-20 address-line3 {% if line3Error %} govuk-input--error{% endif %}"
            name="{{ line3Name }}"
            autocomplete="address-line3"
            value="{{ form.valueFor(line3Name) | default('') }}"
@@ -129,29 +135,40 @@
   </div>
   {{ textInput('Town or city', name + '[city]' if name else 'city', form, inputClass='address-town-or-city',
     compound=true, autocomplete = 'address-level2') }}
-  {{ textInput('Postcode', name + '[postcode]' if name else 'postcode', form, inputClass='postcode form-control-1-4',
+  {{ textInput('Postcode', name + '[postcode]' if name else 'postcode', form, inputClass='postcode govuk-input govuk-input--width-20-1-4',
     autocomplete = 'postal-code') }}
 {% endmacro %}
 
 {% macro correspondenceAddressFragment(form) %}
-  <h2 class="heading-medium">{{ t('Correspondence address') }}</h2>
+  <h2 class="govuk-heading-m">{{ t('Correspondence address') }}</h2>
 
-  {{
-  radioGroup(
-  label = t('Would you like correspondence sent to a different address?'),
-  name = 'hasCorrespondenceAddress',
-  options = [
-  { label: 'No', value: false },
-  { label: 'Yes, add a correspondence address', value: true }
-  ],
-  isInline = false,
-  form = form,
-  labelBold = false
-  )
-  }}
+  {% set correspondenceHtml %}
+    <div class="govuk-panel panel-border-narrow js-hidden" id="hasCorrespondenceAddress-true" aria-hidden="false">
+      <p class="govuk-body">{{ t('All correspondence will be sent to this address. This is known as an ‘address for service’.') }}</p>
+      {{ postcodeLookupAddressFragment(form, name = 'correspondenceAddress') }}
+    </div>
+  {% endset -%}
 
-  <div class="panel panel-border-narrow js-hidden" id="hasCorrespondenceAddress-true" aria-hidden="false">
-    <p>{{ t('All correspondence will be sent to this address. This is known as an ‘address for service’.') | safe }}</p>
-    {{ postcodeLookupAddressFragment(form, name = 'correspondenceAddress') }}
-  </div>
+  {{ govukRadios({
+    name: 'hasCorrespondenceAddress',
+    fieldset: {
+      legend: {
+        text: t('Would you like correspondence sent to a different address?'),
+        isPageHeading: no
+      }
+    },
+    items: [
+      {
+        value: false,
+        text: t('No')
+      },
+      {
+        value: true,
+        text: t('Yes, add a correspondence address'),
+        conditional: {
+          html: 'Testing'
+        }
+      }
+    ]
+  }) }}
 {% endmacro %}

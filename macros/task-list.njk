@@ -22,9 +22,6 @@
   </div>
 {% endmacro %}
 
-{% macro taskListHeading(number, heading) %}
-  <h2 class="task-list-heading">
-    <span class="task-number">{{ number }}.</span>
-    {{ heading }}
-  </h2>
+{% macro taskListHeading(heading) %}
+  <h2 class="task-list-heading">{{ t(heading) }}</h2>
 {% endmacro %}

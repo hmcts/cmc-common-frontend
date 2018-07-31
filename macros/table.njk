@@ -10,6 +10,13 @@
 </fieldset>
 {% endmacro %}
 
+{% macro twoColumnHeadingRow(heading1, heading2, topBorder = false, bottomBorder = true) %}
+  <div class="{% if topBorder %}top-border {% else %}no-top-border {% endif %} {% if bottomBorder %} bottom-border{% else %} no-bottom-border{% endif %}">
+    <div class="column-one-quarter form-label-bold">{{ t(heading1) }}</div>
+    <div class="column-one-half form-label-bold">{{ t(heading2) }}</div>
+  </div>
+{% endmacro %}
+
 {% macro row(label, value, changeLink, bottomBorder = true, bold = false, topBorder = false) %}
   <div class="{% if topBorder %}top-border {% else %}no-top-border {% endif %} {% if bottomBorder %} bottom-border{% else %} no-bottom-border{% endif %}">
     <div class="column-one-quarter  {% if not label %}if-empty{% endif %}">

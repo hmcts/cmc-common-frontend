@@ -33,7 +33,7 @@
       <input  id="{{ internalName }}"
               autocomplete="postal-code"
               name="{{ internalName }}"
-              class="form-control{% if enterAddressError %} form-control-error{% endif %}"
+              class="form-control form-control-1-4{% if enterAddressError %} form-control-error{% endif %}"
               value="{{ form.valueFor(internalName) | default('') }}" />
       <a href="#" id="{{ name + '[find-button]' if name else 'find-button' }}"
          role="button"

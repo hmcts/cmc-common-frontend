@@ -174,7 +174,7 @@
           {{ t(label) }}
         {% endif %}
         <br>
-        <span {% if greyHint === true %}class="form-hint"{% endif %}>{{ t(hint) }}</span>
+        <span {% if greyHint != false %}class="form-hint"{% endif %}>{{ t(hint) }}</span>
       {% endif %}
     </label>
   </div>
@@ -279,7 +279,7 @@
           form = form,
           value = option.value,
           hint = option.hint,
-          greyHint = optoin.greyHint,
+          greyHint = option.greyHint,
           checked = option.checked or (selection === option.value),
           bold = option.bold
         ) }}

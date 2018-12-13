@@ -151,15 +151,15 @@
   }}
 {% endmacro %}
 
-{% macro radioOption(label, name, form, value, hint = '', checked = form.valueFor(name) == value, bold = false) %}
-  {{ option(label = label, name = name, form = form, value = value, type = 'radio', hint = hint, checked = checked, bold = bold) }}
+{% macro radioOption(label, name, form, value, hint = '', checked = form.valueFor(name) == value, bold = false, greyHint = true) %}
+  {{ option(label = label, name = name, form = form, value = value, type = 'radio', hint = hint, checked = checked, bold = bold, greyHint = greyHint) }}
 {% endmacro %}
 
 {% macro checkboxOption(label, name, form, value, hint = '', checked = false, bold = false) %}
   {{ option(label, name, form, value, 'checkbox', hint, checked, bold) }}
 {% endmacro %}
 
-{% macro option(label, name, form, value, type, hint = '', checked = false, bold = false, hidden, className, dataTarget) %}
+{% macro option(label, name, form, value, type, hint = '', checked = false, bold = false, hidden, className, dataTarget, greyHint = true) %}
   <div class="multiple-choice {{ className | default('') }}" data-target="{{ dataTarget | default(name + '-' + value ) }}">
     {% set idValue = name + value | replace(' ', '') %}
     <input id="{{ idValue }}" type="{{ type }}" name="{{ name }}" value="{{ value }}"
@@ -174,7 +174,7 @@
           {{ t(label) }}
         {% endif %}
         <br>
-        <span class="form-hint">{{ t(hint) }}</span>
+        <span {% if greyHint === true %}class="form-hint"{% endif %}>{{ t(hint) }}</span>
       {% endif %}
     </label>
   </div>
@@ -279,6 +279,7 @@
           form = form,
           value = option.value,
           hint = option.hint,
+          greyHint = optoin.greyHint,
           checked = option.checked or (selection === option.value),
           bold = option.bold
         ) }}

@@ -18,6 +18,9 @@
     {% if addressSection.hint %}
       <p>{{ t(addressSection.hint) }}</p>
     {% endif %}
+    {% if addressSection.secondHint %}
+      <p>{{ t(addressSection.secondHint) }}</p>
+    {% endif %}
     {% if addressSection.postcodeLookup %}
       {{ postcodeLookupAddressFragment(form = form, name = addressSection.name, postcodeLabel = postcodeLabel ) }}
     {% else %}

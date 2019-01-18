@@ -17,8 +17,8 @@
   </div>
 {% endmacro %}
 
-{% macro textInput(label, name, form, hint, inputClass='', compound=false, autocomplete='on') %}
-  {{ input(label, name, form, hint, 'text', inputClass, compound, autocomplete) }}
+{% macro textInput(label, name, form, hint, inputClass='', compound=false, autocomplete='on', maxLength) %}
+  {{ input(label, name, form, hint, 'text', inputClass, compound, autocomplete, maxLength=maxLength) }}
 {% endmacro %}
 
 {% macro numericInput(label, name, form, hint, inputClass='', compound=false, autocomplete='on') %}

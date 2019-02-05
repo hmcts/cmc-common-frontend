@@ -6,8 +6,12 @@
       </span>
     </a>
     {% if completedSection === true %}
-      <div class="task-finished">
+      <div class="task-tag">
         <strong>{{ t("COMPLETED") }}</strong>
+      </div>
+    {% else %}
+      <div class="task-tag unfinished">
+        <strong>{{ t("INCOMPLETE") }}</strong>
       </div>
     {% endif %}
 

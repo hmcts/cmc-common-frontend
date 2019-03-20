@@ -1,4 +1,4 @@
-{% macro task(link, taskName, completedSection, showIncomplete) %}
+{% macro task(link, taskName, completedSection) %}
   <div class="task">
     <a href="{{ link }}">
       <span class="task-name {%- if completedSection %} task-finished{% endif %}">
@@ -7,9 +7,9 @@
     </a>
     {% if completedSection === true %}
       <div class="task-finished">
-        <strong>{{ t("COMPLETED") }}</strong>
+        <strong>{{ t("COMPLETE") }}</strong>
       </div>
-    {% elif showIncomplete === true %}
+    {% else %}
       <div class="task-finished unfinished">
         <strong>{{ t("INCOMPLETE") }}</strong>
       </div>
